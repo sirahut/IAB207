@@ -25,8 +25,8 @@ def create_app():
     from . import views
     app.register_blueprint(views.bp)
 
-    from . import Auctions
-    app.register_blueprint(Auctions.bp)
+    from . import auctions
+    app.register_blueprint(auctions.bp)
 
     from . import auth
     app.register_blueprint(auth.bp)
