@@ -1,18 +1,30 @@
 {% extends 'base.html' %}
 
+
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
-
 
 <div class="container">
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4">
             <h1>Login</h1>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="row mt-3 mb-3">
+                {% for category, message in messages %}
+                <div class="alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith%}
+
             {{wtf.quick_form(form)}}
         </div>
-        </div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+
     </div>
 </div>
+
 
 {% endblock %}
