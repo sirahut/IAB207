@@ -26,7 +26,8 @@ class Auctions(db.Model):
     image = db.Column(db.String(400))
     open_bid = db.Column(db.String(3), nullable=False)
     start = db.Column(db.DateTime, default=datetime.now())
-    end = db.Column(db.DateTime)
+    # will change this later
+    end = db.Column(db.DateTime, default=datetime.now())
     # auction status
     # FK
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

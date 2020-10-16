@@ -19,6 +19,45 @@ def show(id):
     return render_template('auctions/show.html', auctions=auction, form=comment_form)
 
 
+def check_upload_file(form):
+    fp = form.image.data
+    filename = fp.filename
+    BASE_PATH = os.path.dirname(__file__)
+
+    upload_path = os.path.join(
+        BASE_PATH, 'static/images', secure_filename(filename))
+    db_upload_path = '/static/images/' + secure_filename(filename)
+    # save the file and return the db upload path
+    fp.save(upload_path)
+    return db_upload_path
+
+
+@bp.route('/create', methods=['GET', 'POST'])
+@login_required
+def create():
+    print('Method type: ', request.method)
+    create_form = AuctionsForm()
+    if create_form.validate_on_submit():
+        db_file_path = check_upload_file(create_form)
+        auctions = Auctions(name=create_form.name.data,
+                            brand=create_form.brand.data,
+                            model=create_form.model.data,
+                            condition=create_form.condition.data,
+                            description=create_form.description.data,
+                            image=db_file_path,
+                            open_bid=create_form.open_bid.data,
+                            # start=create_form.open_bid.data,
+                            user=current_user)
+
+        db.session.add(auctions)
+        db.session.commit()
+
+        print('Successfully created new auction listing', 'success')
+        return redirect(url_for('auction.create'))
+
+    return render_template('auctions/create.html', form=create_form)
+
+
 @bp.route('/<id>/review', methods=['GET', 'POST'])
 @login_required
 def review(id):
@@ -37,28 +76,3 @@ def review(id):
         print('Review form is invalid')
 # notice the signature of url_for
     return redirect(url_for('auction.show', id=id))
-
-
-@bp.route('/create', methods=['GET', 'POST'])
-@login_required
-def create():
-    print('Method type: ', request.method)
-    create_form = AuctionsForm()
-    if create_form.validate_on_submit():
-        auctions = Auctions(name=create_form.name.data,
-                            brand=create_form.brand.data,
-                            model=create_form.model.data,
-                            condition=create_form.model.data,
-                            description=create_form.model.data,
-                            image=create_form.image.data,
-                            open_bid=create_form.open_bid.data,
-                            #start=create_form.open_bid.data,
-                            user_id=current_user)
-
-        db.session.add(auctions)
-        db.session.commit()
-
-        print('Successfully created new auction listing', 'success')
-        return redirect(url_for('auction.create'))
-
-    return render_template('auctions/create.html', form=create_form)

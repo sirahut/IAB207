@@ -5,7 +5,7 @@ from flask_wtf.file import FileRequired, FileField, FileAllowed
 from wtforms import Form, BooleanField, StringField, validators, DateTimeField, IntegerField
 from wtforms.fields.html5 import DateField, IntegerField
 
-ALLOWED_FILE = ['png', 'jpg', 'JPG', 'PNG']
+ALLOWED_FILE = ('png', 'jpg', 'JPG', 'PNG')
 
 
 class AuctionsForm(FlaskForm):
