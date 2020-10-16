@@ -29,7 +29,7 @@
 
         <!-- Your Travel App Name or Logo -->
 
-        <a href="/" class="navbar-brand" style="position:relative; left:-100px; top:2px; " >
+        <a href="/" class="navbar-brand" style="position:relative; left:-100px; top:2px; ">
 
           TechDrop
 
@@ -64,7 +64,7 @@
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href=>List An Item</a>
+              <a class="nav-link" href="{{ url_for('auction.create') }}">List An Item</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"

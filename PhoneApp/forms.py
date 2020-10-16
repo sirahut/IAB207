@@ -13,7 +13,7 @@ class AuctionsForm(FlaskForm):
                        InputRequired('Country is required')])
     brand = StringField('Mobile Brand', validators=[
                         InputRequired('Mobile Brand Is Required')])
-    
+
     image = StringField('Image', validators=[
                         InputRequired('Image is Required')])
     model = StringField('Model No.', validators=[
@@ -26,9 +26,9 @@ class AuctionsForm(FlaskForm):
         FileRequired(message='Image can not be empty'),
         FileAllowed(ALLOWED_FILE, message="Only supports valid filetypes")])
 
-    open_bid = IntegerField('Opening Bid', [validators.NumberRange(min=0, max=10)])
+    open_bid = IntegerField('Opening Bid', [validators.NumberRange(min=1)])
     start = DateField('Start Date', id='datepick')
-    end = DateField('End Date', id='datepick')    
+    end = DateField('End Date', id='datepick')
     submit = SubmitField('Create')
 
 

@@ -40,6 +40,7 @@ def review(id):
 
 
 @bp.route('/create', methods=['GET', 'POST'])
+@login_required
 def create():
     print('Method type: ', request.method)
     create_form = AuctionsForm()
@@ -51,7 +52,8 @@ def create():
                             description=create_form.model.data,
                             image=create_form.image.data,
                             open_bid=create_form.open_bid.data,
-                            start=create_form.open_bid.data)
+                            start=create_form.open_bid.data,
+                            user_id=current_user)
 
         db.session.add(auctions)
         db.session.commit()
