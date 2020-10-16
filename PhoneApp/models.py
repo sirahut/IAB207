@@ -27,7 +27,7 @@ class Auctions(db.Model):
     open_bid = db.Column(db.String(3), nullable=False)
     start = db.Column(db.DateTime, default=datetime.now())
     # will change this later
-    end = db.Column(db.DateTime, default=datetime.now())
+    end = db.Column(db.DateTime)
     # auction status
     # FK
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
