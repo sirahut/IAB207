@@ -55,6 +55,6 @@ class RegisterForm(FlaskForm):
 
 
 class ReviewForm(FlaskForm):
-    review = TextAreaField('Review', validators=[InputRequired('Review Is Required'), Length(
+    review = TextAreaField('', validators=[InputRequired('Review Is Required'), Length(
         min=5, max=400, message='Comment is too long or too short')])
-    submit = SubmitField('Post')
+    submit = SubmitField('Write Review')

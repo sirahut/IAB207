@@ -72,7 +72,6 @@
                 <!-- Review tab -->
                 <div id="review" class="container tab-pane fade"><br>
                     <h3>Review</h3>
-                    {{wtf.quick_form(form, "/auction/{0}/review".format(auction.id))}}
 
                     {% for review in auction.reviews %}
                     <div class="row border-bottom">
@@ -82,6 +81,7 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {{wtf.quick_form(form, "/auctions/{0}/review".format(auction.id))}}
                     <!-- <p> tantan77 (9 months ago)</p>
                     <p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por
                         scientie,
