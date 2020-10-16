@@ -1,14 +1,11 @@
 from flask import Blueprint, render_template, url_for, redirect, request
 from .models import Auctions, Review
 from .forms import AuctionsForm, ReviewForm
-
-
+from flask_login import login_required, current_user
 from datetime import datetime
 from . import db
 import os
 from werkzeug.utils import secure_filename
-from flask_wtf import form
-from wtforms.fields.core import DateField
 
 
 # create blueprint
@@ -21,12 +18,26 @@ def show(id):
     comment_form = ReviewForm()
     return render_template('auctions/show.html', auctions=auction, form=comment_form)
 
-@bp.route('/<id>/comment', methods=['GET', 'POST'])
-def comment(id):
-    comment_form = ReviewForm()
-    if form.validate_on_submit():
-        print("Comment posted by the user:  ", comment_form.text.data)
-    return redirect(url_for('auction.show', id=1))
+
+@bp.route('/<id>/review', methods=['GET', 'POST'])
+@login_required
+def review(id):
+    # here the form is created
+    review_form_instance = ReviewForm()
+    auction_obj = Auctions.query.filter_by(id=id).first()
+    review = Review(text=review_form_instance.review.data,
+                    auction_id=auction_obj, user_id=current_user)
+
+    db.session.add(review)
+    db.session.commit()
+    if review_form_instance.validate_on_submit():  # this is true only in case of POST method
+        print(
+            f'Review form is valid. The review was {review_form_instance.review.data}')
+    else:
+        print('Review form is invalid')
+# notice the signature of url_for
+    return redirect(url_for('auction.show', id=id))
+
 
 @bp.route('/create', methods=['GET', 'POST'])
 def create():
@@ -42,13 +53,10 @@ def create():
                             open_bid=create_form.open_bid.data,
                             start=create_form.open_bid.data)
 
-
         db.session.add(auctions)
         db.session.commit()
 
-    
         print('Successfully created new auction listing', 'success')
         return redirect(url_for('auction.create'))
 
     return render_template('auctions/create.html', form=create_form)
-

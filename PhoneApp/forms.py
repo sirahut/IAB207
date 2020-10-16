@@ -9,8 +9,8 @@ ALLOWED_FILE = ['png', 'jpg', 'JPG', 'PNG']
 
 
 class AuctionsForm(FlaskForm):
-    #name = StringField('', validators=[
-    #                   InputRequired('Country is required')])
+    name = StringField('Name', validators=[
+                       InputRequired('Country is required')])
     brand = StringField('Mobile Brand', validators=[
                         InputRequired('Mobile Brand Is Required')])
     
