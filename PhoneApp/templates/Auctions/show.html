@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
 <div class="row mt-2">
@@ -13,7 +14,7 @@
     </div>
     <div class="col-5">
         <div class="itemcard bg-light mb-3">
-            <div class="card-header">Four Loose Blue Topaz, 48.00ct in Total</div>
+            <div class="card-header">{{ auction.name}}</div>
             <div class="card-body">
                 <h5 class="card-title">Current bid: $430</h5>
                 <p class="card-text">13 bids</p>
@@ -46,7 +47,7 @@
     <div class="col-1">
     </div>
     <div class="col-10">
-        <div class="container1">
+        <div class="container">
             <!-- Nav pills -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -66,31 +67,36 @@
             <div class="tab-content">
                 <div id="description" class="container tab-pane active"><br>
                     <h3>Description</h3>
-                    <p>Four loose gemstones.</p>
-                    <p>Four oval shaped blue topazes, colour is ``medium``.</p>
-                    <p>Dimensions: 14.8mm(L) x 11.7mm(W) x 8.1mm(D-estimated) (smallest)</p>
-                    <p>Dimensions: 15.2mm(L) x 13.5mm(W) x 8.7mm(D-estimated) (largest)</p>
-                    <p>Total Weight: 48.00ct Calculated</p>
-                    <p>Important: Images should be used as a guide only. Colours may display differently due to
-                        computer monitor variations. Please check description for colour details.</p>
+                    <p>{{auction.description}}</p>
                 </div>
+                <!-- Review tab -->
                 <div id="review" class="container tab-pane fade"><br>
                     <h3>Review</h3>
-                    <p> tantan77 (9 months ago)</p>
+                    {{wtf.quick_form(form, "/auction/{0}/review".format(auction.id))}}
+
+                    {% for review in auction.reviews %}
+                    <div class="row border-bottom">
+                        <div class="col-md-12">
+                            <b>{{ review.user.name }} <span class="ml-2 text-muted">{{ review.create_at }}</span></b>
+                            <p>{{ review.text }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- <p> tantan77 (9 months ago)</p>
                     <p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por
                         scientie,
                         musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li
                         grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de
                         un
                         nov lingua franca: On refusa continuar payar custosi traductores.</p>
-
+                    
                     <form>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Write a review</label>
                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                             <button type="submit" class="btn btn-outline-dark mt-2">Submit</button>
                         </div>
-                    </form>
+                    </form> -->
                 </div>
                 <div id="delivery" class="container tab-pane fade"><br>
                     <h3>Delivery Information</h3>

@@ -15,8 +15,8 @@ bp = Blueprint('auction', __name__, url_prefix='/auctions')
 @bp.route('/<id>')
 def show(id):
     auction = Auctions.query.filter_by(id=id).first()
-    comment_form = ReviewForm()
-    return render_template('auctions/show.html', auctions=auction, form=comment_form)
+    review_form = ReviewForm()
+    return render_template('auctions/show.html', auction=auction, form=review_form)
 
 
 def check_upload_file(form):
