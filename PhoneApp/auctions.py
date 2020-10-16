@@ -65,7 +65,7 @@ def review(id):
     review_form_instance = ReviewForm()
     auction_obj = Auctions.query.filter_by(id=id).first()
     review = Review(text=review_form_instance.review.data,
-                    auction_id=auction_obj, user_id=current_user)
+                    auction=auction_obj, user=current_user)
 
     db.session.add(review)
     db.session.commit()
