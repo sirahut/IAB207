@@ -27,8 +27,8 @@ class AuctionsForm(FlaskForm):
         FileAllowed(ALLOWED_FILE, message="Only supports valid filetypes")])
 
     open_bid = IntegerField('Opening Bid', [validators.NumberRange(min=1)])
-    start = DateField('Start Date', id='datepick')
-    end = DateField('End Date', id='datepick')
+    #start = DateField('Start Date', id='datepick')
+    #end = DateField('End Date', id='datepick')
     submit = SubmitField('Create')
 
 

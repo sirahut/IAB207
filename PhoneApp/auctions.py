@@ -52,7 +52,7 @@ def create():
                             description=create_form.model.data,
                             image=create_form.image.data,
                             open_bid=create_form.open_bid.data,
-                            start=create_form.open_bid.data,
+                            #start=create_form.open_bid.data,
                             user_id=current_user)
 
         db.session.add(auctions)
