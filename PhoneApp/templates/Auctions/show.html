@@ -10,10 +10,7 @@
         <div class="text-center">
                 <!--image size & border-->
                 <style>
-                .image {
-                width: 500;
-                height: 300;
-                border: 5px solid #200;
+
 
                 @media screen and (max-width: 767px) {   
                 #main-img{
@@ -21,7 +18,9 @@
                 } 
                 
                 </style>
-            <img src="{{auction.image}}" class="image">
+            <picture>
+                <img src="{{auction.image}}" class="image" srcset="{{auction.image}} 5000w">
+            </picture>
         </div>
     </div>
     <div class="col-5">
