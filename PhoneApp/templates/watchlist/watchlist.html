@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<span class="row">
+    <span class="col">
+        <h3 class="headp3">Watchlist</h3>
+    </span>
+    <span id="sortByText">
+        Sort by:
+    </span>
+    <span id="sortByBut">
+        <select>
+            <option>Ending Soonest</option>
+            <option>Price:Low-High</option>
+            <option>Price:High-Low</option>
+            <option>Recently Added</option>
+        </select>
+    </span>
+</span>
+<div class="container2">
+    <div class="row">
+        <div class="col-5">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="image/BlueTopaz.JPG" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Four Loose Blue Topaz, 48.00ct in Total</h5>
+                            <p class="card-text">$430<br>13 bids<br>0d 8h 10m left</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="bidWatchList">
+                <p class="line2">
+                    Current Bid: <span id="big">AU $430</span>
+                </p>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="bid" aria-label="bid" id="inputbar">
+                    <button class="btn btn-outline-dark my-2 my-sm-0">Place Bid</button>
+                </form>
+                <p class="priceControl">Enter AU $440.00 or more</p>
+            </div>
+        </div>
+        <span class="col-3 bidWatchList">
+            <p class="addDate">Item added 4 September 2020</p>
+            <button type="button" class="btn btn-outline-danger mt-2">Remove from Watchlist</button>
+            <button type="button" class="btn btn-outline-primary mt-2">View Item</button>
+        </span>
+    </div>
+</div>
+<div class="container2">
+    <div class="row">
+        <div class="col-5">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="image/Peridots.jpg" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Twenty Five Loose Peridots, 10.30ct in Total</h5>
+                            <p class="card-text">$390<br>8 bids<br>1d 5h 36m left</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="bidWatchList">
+                <p class="line2">
+                    Current Bid: <span id="big">AU $390</span>
+                </p>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="bid" aria-label="bid" id="inputbar">
+                    <button class="btn btn-outline-dark my-2 my-sm-0">Place Bid</button>
+                </form>
+                <p class="priceControl">Enter AU $400.00 or more</p>
+            </div>
+        </div>
+        <span class="col-3 bidWatchList">
+            <p class="addDate">Item added 6 September 2020</p>
+            <button type="button" class="btn btn-outline-danger mt-2">Remove from Watchlist</button>
+            <button type="button" class="btn btn-outline-primary mt-2">View Item</button>
+        </span>
+    </div>
+</div>
+<div class="container2">
+    <div class="row">
+        <div class="col-5">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="image/Emerald.jpg" class="card-img" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">One Loose Emerald, 6.88ct in Total</h5>
+                            <p class="card-text">$278<br>11 bids<br>1d 7h 18m left</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="bidWatchList">
+                <p class="line2">
+                    Current Bid: <span id="big">AU $278</span>
+                </p>
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="bid" aria-label="bid" id="inputbar">
+                    <button class="btn btn-outline-dark my-2 my-sm-0 mt-2">Place Bid</button>
+                </form>
+                <p class="priceControl">Enter AU $288.00 or more</p>
+            </div>
+        </div>
+        <span class="col-3 bidWatchList">
+            <p class="addDate">Item added 10 September 2020</p>
+            <button type="button" class="btn btn-outline-danger mt-2">Remove from Watchlist</button>
+            <button type="button" class="btn btn-outline-primary mt-2">View Item</button>
+        </span>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -76,3 +76,5 @@ def review(id):
         print('Review form is invalid')
 # notice the signature of url_for
     return redirect(url_for('auction.show', id=id))
+
+

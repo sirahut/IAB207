@@ -27,6 +27,7 @@ def create_app():
 
     # create a user loader function takes userid and returns User
     from .models import User  # importing here to avoid circular references
+
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
@@ -49,5 +50,8 @@ def create_app():
 
     from . import auth
     app.register_blueprint(auth.bp)
+
+    from . import watchlist
+    app.register_blueprint(watchlist.bp)
 
     return app
