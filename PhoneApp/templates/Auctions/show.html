@@ -8,24 +8,27 @@
 
     <div class="col-4 ml-2">
         <div class="text-center">
-                <!--image size & border-->
-                <style>
+            <!--image size & border-->
+            <style>
+                @media screen and (max-width: 767px) {
+                    #main-img {
+                            {
+                                {
+                                auction.image
+                            }
+                        }
 
-
-                @media screen and (max-width: 767px) {   
-                #main-img{
-                    {{auction.image}};
-                } 
-                
-                </style>
-            <picture style = "position:relative; left:0px; top:25px;">
-                <img src="{{auction.image}}" class="image" srcset="{{auction.image}} 5000w" 
-                style="border:5px solid black" style=".image;margin:50px 0px">
+                        ;
+                    }
+            </style>
+            <picture style="position:relative; left:0px; top:25px;">
+                <img src="{{auction.image}}" class="image" srcset="{{auction.image}} 5000w"
+                    style="border:5px solid black" style=".image;margin:50px 0px">
             </picture>
         </div>
     </div>
     <div class="col-5">
-        <div class="itemcard bg-light mb-3" style = "position:relative; left: 0px; top:25px;">
+        <div class="itemcard bg-light mb-3" style="position:relative; left: 0px; top:25px;">
             <div class="card-header">{{ auction.name}}</div>
             <div class="card-body">
                 <h5 class="card-title">Current bid: </h5>
@@ -44,6 +47,7 @@
                     <p class="priceControl">(Enter AU $440.00 or more)</p>
                 </div>
                 {{wtf.quick_form(form2, "/watchlists/{0}/addWatchlist".format(auction.id))}}
+                {{form2.add(class="btn btn-outline-dark")}}
 
             </div>
         </div>
@@ -58,7 +62,7 @@
     <div class="col-1">
     </div>
     <div class="col-10">
-        <div class="container" style = "position:relative; left:-200px; top:25px;">
+        <div class="container" style="position:relative; left:-200px; top:25px;">
             <!-- Nav pills -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
