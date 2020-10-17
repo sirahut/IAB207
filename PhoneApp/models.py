@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     auctions = db.relationship('Auctions', backref='user')
     reviews = db.relationship('Review', backref='user')
     bids = db.relationship('Bid', backref='user')
+    watchlists = db.relationship('Watchlist', backref='user')
 
 
 class Auctions(db.Model):
@@ -34,6 +35,7 @@ class Auctions(db.Model):
     # backref
     reviews = db.relationship('Review', backref='auction')
     bids = db.relationship('Bid', backref='auction')
+    watchlists = db.relationship('Watchlist', backref='auction')
 
     def __repr__(self):
         return "<Name: {}>".format(self.name)
@@ -49,7 +51,7 @@ class Review(db.Model):
     auction_id = db.Column(db.Integer, db.ForeignKey('auctions.id'))
 
     def __repr__(self):
-        return "<Review: {}>".format(self.text)
+        return "<Name: {}>".format(self.text)
 
 
 class Bid(db.Model):
@@ -62,4 +64,16 @@ class Bid(db.Model):
     auction_id = db.Column(db.Integer, db.ForeignKey('auctions.id'))
 
     def __repr__(self):
-        return "<Review: {}>".format(self.text)
+        return "<Name: {}>".format(self.text)
+
+
+class Watchlist(db.Model):
+    __tablename__ = 'watchlists'
+    id = db.Column(db.Integer, primary_key=True)
+    added_date = db.Column(db.DateTime, default=datetime.now())
+    # FK
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    auction_id = db.Column(db.Integer, db.ForeignKey('auctions.id'))
+
+    def __repr__(self):
+        return "<Name: {}>".format(self.text)
