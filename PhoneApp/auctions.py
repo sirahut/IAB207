@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, redirect, request
 from .models import Auctions, Review
-from .forms import AuctionsForm, ReviewForm
+from .forms import AuctionsForm, ReviewForm, WatchListForm
 from flask_login import login_required, current_user
 from datetime import datetime
 from . import db
@@ -16,7 +16,8 @@ bp = Blueprint('auction', __name__, url_prefix='/auctions')
 def show(id):
     auction = Auctions.query.filter_by(id=id).first()
     review_form = ReviewForm()
-    return render_template('auctions/show.html', auction=auction, form=review_form)
+    watchlist_form = WatchListForm()
+    return render_template('auctions/show.html', auction=auction, form=review_form, form2=watchlist_form)
 
 
 def check_upload_file(form):
@@ -76,5 +77,3 @@ def review(id):
         print('Review form is invalid')
 # notice the signature of url_for
     return redirect(url_for('auction.show', id=id))
-
-

@@ -8,16 +8,19 @@
 
     <div class="col-4 ml-2">
         <div class="text-center">
-                <!--image size & border-->
-                <style>
+            <!--image size & border-->
+            <style>
+                @media screen and (max-width: 767px) {
+                    #main-img {
+                            {
+                                {
+                                auction.image
+                            }
+                        }
 
-
-                @media screen and (max-width: 767px) {   
-                #main-img{
-                    {{auction.image}};
-                } 
-                
-                </style>
+                        ;
+                    }
+            </style>
             <picture>
                 <img src="{{auction.image}}" class="image" srcset="{{auction.image}} 5000w">
             </picture>
@@ -42,8 +45,7 @@
                 <div>
                     <p class="priceControl">(Enter AU $440.00 or more)</p>
                 </div>
-                <button type="button" class="btn btn-outline-dark">Add to Watchlist</button>
-
+                {{wtf.quick_form(form2, "/watchlists/{0}/addWatchlist".format(auction.id))}}
 
             </div>
         </div>

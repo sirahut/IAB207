@@ -58,3 +58,7 @@ class ReviewForm(FlaskForm):
     review = TextAreaField('', validators=[InputRequired('Review Is Required'), Length(
         min=5, max=400, message='Comment is too long or too short')])
     submit = SubmitField('Write Review')
+
+
+class WatchListForm(FlaskForm):
+    add = SubmitField('Add to Watchlist')
