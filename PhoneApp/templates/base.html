@@ -32,19 +32,19 @@
 
     <nav class="navbar navbar-dark bg-dark">
 
-      <div class="container">
+      <div class="container"   >
 
         <!-- Your Travel App Name or Logo -->
 
         <a class="navbar-brand" href="/">
-          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-music-player" fill="currentColor"
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-music-player" fill="currentColor" 
             xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd"
               d="M12 1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" />
             <path fill-rule="evenodd"
               d="M11 3H5v3h6V3zM5 2a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H5zm3 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
             <circle cx="8" cy="11" r="1" />
-          </svg>
+          </svg >
           TechDrop
         </a>
 
@@ -95,7 +95,7 @@
               </a>
             </li>
 
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" >
               <a class="text-white dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 {% if current_user.is_authenticated %}
@@ -109,7 +109,7 @@
                 Account
                 {% endif %}
               </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" style = "position:relative; left: 0px; top:0px;">
                 {% if current_user.is_authenticated %}
                 <a class="text-info" href="{{ url_for('auth.logout') }}">
                   <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-door-open-fill" fill="currentColor"
@@ -163,7 +163,7 @@
 
   <footer class="footer">
 
-    <div class="text-center py-2 bg-light">
+    <div class="text-center py-2 bg-light" style = "position:relative; left: 10px; top:300px;">
 
       <span class="text-dark">TechDrop Copyright &copy; 2019</span>
 

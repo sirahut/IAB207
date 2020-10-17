@@ -18,16 +18,17 @@
                 } 
                 
                 </style>
-            <picture>
-                <img src="{{auction.image}}" class="image" srcset="{{auction.image}} 5000w">
+            <picture style = "position:relative; left:0px; top:25px;">
+                <img src="{{auction.image}}" class="image" srcset="{{auction.image}} 5000w" 
+                style="border:5px solid black" style=".image;margin:50px 0px">
             </picture>
         </div>
     </div>
     <div class="col-5">
-        <div class="itemcard bg-light mb-3">
+        <div class="itemcard bg-light mb-3" style = "position:relative; left: 0px; top:25px;">
             <div class="card-header">{{ auction.name}}</div>
             <div class="card-body">
-                <h5 class="card-title">Current bid: $430</h5>
+                <h5 class="card-title">Current bid: </h5>
                 <p class="card-text">13 bids</p>
                 <p class="card-text">2d 8h 10m left</p>
 
@@ -58,7 +59,7 @@
     <div class="col-1">
     </div>
     <div class="col-10">
-        <div class="container">
+        <div class="container" style = "position:relative; left:-200px; top:25px;">
             <!-- Nav pills -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
