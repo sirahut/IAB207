@@ -33,10 +33,5 @@ def add_to_watchlist(id):
 
     db.session.add(watchlist)
     db.session.commit()
-    #     if review_form_instance.validate_on_submit():  # this is true only in case of POST method
-    #         print(
-    #             f'Review form is valid. The review was {review_form_instance.review.data}')
-    #     else:
-    #         print('Review form is invalid')
-    # # notice the signature of url_for
+   
     return redirect(url_for('auction.show', id=id))
