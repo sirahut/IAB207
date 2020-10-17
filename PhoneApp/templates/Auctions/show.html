@@ -11,10 +11,14 @@
                 <!--image size & border-->
                 <style>
                 .image {
-                width: 600;
-                height: 400;
+                width: 500;
+                height: 300;
                 border: 5px solid #200;
-                }
+
+                @media screen and (max-width: 767px) {   
+                #main-img{
+                    {{auction.image}};
+                } 
                 
                 </style>
             <img src="{{auction.image}}" class="image">
