@@ -77,3 +77,29 @@ class Watchlist(db.Model):
 
     def __repr__(self):
         return "<Name: {}>".format(self.text)
+
+    
+class Brand(db.Model):
+    __tablename__ = 'brand'
+    id = db.Column(db.Integer, primary_key=True)
+    condition = db.Column(db.String(50))
+
+    def __repr__(self):
+        return '[Brand {}]'.format(self.name)
+    
+class Model(db.Model):
+    __tablename__ = 'model'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+    def __repr__(self):
+        return "<Review: {}>".format(self.text)
+
+
+class Condition(db.Model):
+    __tablename__ = 'condition'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+    def __repr__(self):
+        return '[Condition {}]'.format(self.name)
