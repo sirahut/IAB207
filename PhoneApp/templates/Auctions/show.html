@@ -46,8 +46,11 @@
                 <div>
                     <p class="priceControl">(Enter AU $440.00 or more)</p>
                 </div>
-                {{wtf.quick_form(form2, "/watchlists/{0}/addWatchlist".format(auction.id))}}
-                {{form2.add(class="btn btn-outline-dark")}}
+                <form action="/watchlists/{{(auction.id)}}/addWatchlist" method="POST" class="form" role="form">
+                    {{ form.csrf_token() }}
+                    <button type="submit" id="add" name="add" class="btn btn-outline-dark">Add to Watchlist</button>
+                </form>
+
 
             </div>
         </div>
