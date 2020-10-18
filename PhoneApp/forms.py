@@ -9,6 +9,11 @@ from .models import Brand, Condition
 
 ALLOWED_FILE = ('png', 'jpg', 'JPG', 'PNG')
 
+def condition_query():
+    return Condition.query
+
+def brand_query():
+    return Brand.query
 
 class AuctionsForm(FlaskForm):
     name = StringField('Name', validators=[
