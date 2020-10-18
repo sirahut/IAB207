@@ -18,15 +18,15 @@ def brand_query():
 class AuctionsForm(FlaskForm):
     name = StringField('Name', validators=[
                        InputRequired('Country is required')])
-    brand = StringField('Mobile Brand', validators=[
-                        InputRequired('Mobile Brand Is Required')])
+    brand = QuerySelectField(
+        query_factory=brand_query, allow_blank=True, get_label='condition')
 
     image = StringField('Image', validators=[
                         InputRequired('Image is Required')])
     model = StringField('Model No.', validators=[
                         InputRequired('Model No. Is Required')])
-    condition = StringField('Condition Of The Product', validators=[
-                            InputRequired('Condition of the product is Required')])
+    condition = QuerySelectField(
+        query_factory=condition_query, allow_blank=True, get_label='name')
     description = StringField('Description', validators=[InputRequired('Description is required'),
                                                          Length(min=10, max=300, message='Description is too short or too long')])
     image = FileField('Mobile Images', validators=[
