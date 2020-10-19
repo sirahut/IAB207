@@ -6,7 +6,10 @@ from datetime import datetime
 from . import db
 import os
 from werkzeug.utils import secure_filename
-
+from flask_wtf.form import FlaskForm
+from flask.helpers import flash
+from unicodedata import name
+from sqlalchemy.databases import mysql, sqlite
 
 # create blueprint
 bp = Blueprint('auction', __name__, url_prefix='/auctions')
@@ -71,9 +74,17 @@ def review(id):
     db.session.add(review)
     db.session.commit()
     if review_form_instance.validate_on_submit():  # this is true only in case of POST method
-        print(
-            f'Review form is valid. The review was {review_form_instance.review.data}')
+        print(f'Review form is valid. The review was {review_form_instance.review.data}')
     else:
         print('Review form is invalid')
 # notice the signature of url_for
     return redirect(url_for('auction.show', id=id))
+
+
+
+
+@bp.route('/listed', methods=['GET'])
+@login_required
+def listed():
+    return render_template('auctions/listed.html')
+

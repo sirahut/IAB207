@@ -1,41 +1,33 @@
-{% extends 'base.html' %}
+{% extends 'base.html'%}
+
+{% block header %}
 
 
-{% import "bootstrap/wtf.html" as wtf %}
-{% block content %}
-    
-<div class="container mt-5">
-    <table class="table table-sm table-condensed table-striped">
-        <h1>Current Listed Items</h1>
-        <thead>
-            <div class="col-md-4"></div>
-            <th>Sr</th>
+  <div class="container">
+    <table class="table table-sm">
+        <h1>Items Listed</h1>
+          <thead>
+            <th>ID</th>
             <th>Product</th>
             <th>Price</th>
-            <th>Discount</th>
             <th>Brand</th>
             <th>Image</th>
             <th>Edit</th>
             <th>Delete</th>
-
-            <div class="col-md-4"></div>
-        </thead>
+          </thead>
         <tbody>
+          <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>     
 
-            <tr>
-            <td>ID</td>
-            <td>NAME</td>
-            <td>OPEN BID</td>
-            <td>BRAND</td>
-            <td>BIDS</td>
-            <td>IMAGE</td>
-            <td>Edit</td>
-            <td>Delete</td>
-            </tr>
+      </table>
+    </div>
+  </div>
 
-        </tbody>
-    </table>
-</div>
-
-
-{% endblock %}
+  {% endblock %}
