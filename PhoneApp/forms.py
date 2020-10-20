@@ -69,3 +69,8 @@ class ReviewForm(FlaskForm):
 
 class WatchListForm(FlaskForm):
     add = SubmitField('Add to Watchlist')
+    
+class PlaceBid(FlaskForm):
+    open_bid = IntegerField('Opening Bid', [validators.NumberRange(min=1)])
+    place = SubmitField('Place Bid')
+
