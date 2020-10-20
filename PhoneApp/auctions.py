@@ -16,7 +16,7 @@ bp = Blueprint('auction', __name__, url_prefix='/auctions')
 
 
 @bp.route('/<id>',  methods=['GET', 'POST'])
-def show():
+def show(id):
     auction = Auctions.query.filter_by(id=id).first()
     review_form = ReviewForm()
     watchlist_form = WatchListForm()
