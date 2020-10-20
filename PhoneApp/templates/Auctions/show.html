@@ -18,7 +18,7 @@
                             }
                         }
 
-                        ;
+
                     }
             </style>
             <picture style="position:relative; left:0px; top:25px;">
@@ -35,22 +35,24 @@
                 <p class="card-text">13 bids</p>
                 <p class="card-text">2d 8h 10m left</p>
 
-                <form class="form-inline">
+                <!--Place bid form-->
+                <form class="form-inline" action="/auctions/{{auction.id}}/bid" method="POST" class="form" role="form">
+                    {{ bid_form.csrf_token() }}
 
-                     {{ wtf.quick_form(form3) }}
+                    <div class="form-group mb-2">
+                        {{ wtf.form_field(bid_form.bid_amount, placeholder="AUD") }}
 
-                    <!-- <div class="form-group mb-2">
-                        <label for="bidAmount">$</label>
-                        <input type="text" class="form-control" placeholder="AUD">
                     </div>
-                    <button type="submit" class="btn btn-dark mb-2 ml-2">Place Bid</button>
+                    <button type="submit" id="place" name="place" class="btn btn-dark mb-2 ml-2">Place Bid</button>
                 </form>
                 <div>
                     <p class="priceControl">(Enter AU $440.00 or more)</p>
                 </div>
+
+                <!--Add to Watchlist button-->
                 <form action="/watchlists/{{(auction.id)}}/addWatchlist" method="POST" class="form" role="form">
-                    {{ form.csrf_token() }}
-                    <button type="submit" id="add" name="add" class="btn btn-outline-dark">Add to Watchlist</button> -->
+                    {{ watchlist.csrf_token() }}
+                    <button type="submit" id="add" name="add" class="btn btn-outline-dark">Add to Watchlist</button>
                 </form>
 
 
@@ -101,7 +103,7 @@
                         </div>
                     </div>
                     {% endfor %}
-                    {{wtf.quick_form(form, "/auctions/{0}/review".format(auction.id))}}
+                    {{wtf.quick_form(review_form, "/auctions/{0}/review".format(auction.id))}}
                     <!-- <p> tantan77 (9 months ago)</p>
                     <p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por
                         scientie,

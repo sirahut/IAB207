@@ -74,6 +74,11 @@ class WatchListForm(FlaskForm):
     add = SubmitField('Add to Watchlist')
 
 
-class PlaceBid(FlaskForm):
-    open_bid = IntegerField('Opening Bid', [validators.NumberRange(min=1)])
+class PlaceBidForm(FlaskForm):
+    # the bid amount has to be more than current bid
+    # draw from Bid table
+    # grab the highest bid
+    # SELECT * FROM BID WHERE auction_id = <id>
+    #min = highest_bid+1
+    bid_amount = IntegerField('$', [validators.NumberRange(min=1)])
     place = SubmitField('Place Bids')

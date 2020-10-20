@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, redirect, request
 from .models import Auctions, Review, Bid
-from .forms import AuctionsForm, ReviewForm, WatchListForm, PlaceBid
+from .forms import AuctionsForm, ReviewForm, WatchListForm, PlaceBidForm
 from flask_login import login_required, current_user
 from datetime import datetime
 from . import db
@@ -18,16 +18,25 @@ bp = Blueprint('auction', __name__, url_prefix='/auctions')
 @bp.route('/<id>',  methods=['GET', 'POST'])
 def show(id):
     auction = Auctions.query.filter_by(id=id).first()
+    placebid = PlaceBidForm()
     review_form = ReviewForm()
     watchlist_form = WatchListForm()
-    placebid = PlaceBid()
-    if placebid.validate_on_submit():
-        bid = Bid(open_bid=placebid.open_bid.data,
-                  )
 
+    return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid)
+
+
+@bp.route('/<id>/bid', methods=['GET', 'POST'])
+@login_required
+def bid(id):
+    placebid = PlaceBidForm()
+    if placebid.validate_on_submit():
+        auction_obj = Auctions.query.filter_by(id=id).first()
+        bid = Bid(bid_amount=placebid.bid_amount.data,
+                  auction=auction_obj, user=current_user)
         db.session.add(bid)
         db.session.commit()
-    return render_template('auctions/show.html', auction=auction, form=review_form, form2=watchlist_form, form3=placebid)
+
+    return redirect(url_for('auction.show', id=id))
 
 
 def check_upload_file(form):
@@ -92,11 +101,9 @@ def review(id):
 @bp.route('/listed', methods=['GET'])
 @login_required
 def listed():
-    
+
     auc = f"{Auctions.query.count():,}"
     auc_items = Auctions.query.all()
     auctioned = AuctionsForm(Auctions=auc, user=current_user)
-
-
 
     return render_template('auctions/listed.html', count=auc, auctions=auc_items)
