@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
 from wtforms.validators import InputRequired, Length, Email, EqualTo
 from flask_wtf.file import FileRequired, FileField, FileAllowed
-from wtforms import Form, BooleanField, StringField, validators, DateTimeField, IntegerField
+from wtforms import Form, BooleanField, StringField, validators, DateTimeField, IntegerField, FloatField
 from wtforms.fields.html5 import DateField, IntegerField
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from .models import Brand, Condition
@@ -21,22 +21,24 @@ def brand_query():
 class AuctionsForm(FlaskForm):
     name = StringField('Name', validators=[
                        InputRequired('Country is required')])
-    brand = QuerySelectField(
-        query_factory=brand_query, allow_blank=True, get_label='condition')
+    # brand = QuerySelectField(
+    # query_factory=brand_query, allow_blank=True, get_label='condition')
+    brand = StringField('Brand', validators=[
+                        InputRequired('Brand Is Required')])
 
-    image = StringField('Image', validators=[
-                        InputRequired('Image is Required')])
     model = StringField('Model No.', validators=[
                         InputRequired('Model No. Is Required')])
-    condition = QuerySelectField(
-        query_factory=condition_query, allow_blank=True, get_label='name')
+    # condition = QuerySelectField(
+    # query_factory=condition_query, allow_blank=True, get_label='name')
+    condition = StringField('Condition', validators=[
+        InputRequired('Condition Is Required')])
     description = StringField('Description', validators=[InputRequired('Description is required'),
                                                          Length(min=10, max=300, message='Description is too short or too long')])
     image = FileField('Mobile Images', validators=[
         FileRequired(message='Image can not be empty'),
         FileAllowed(ALLOWED_FILE, message="Only supports valid filetypes")])
 
-    open_bid = IntegerField('Opening Bid', [validators.NumberRange(min=1)])
+    open_bid = FloatField('Opening Bid', [validators.NumberRange(min=100)])
     #start = DateField('Start Date', id='datepick')
     #end = DateField('End Date', id='datepick')
     submit = SubmitField('Create')
@@ -80,5 +82,5 @@ class PlaceBidForm(FlaskForm):
     # grab the highest bid
     # SELECT * FROM BID WHERE auction_id = <id>
     #min = highest_bid+1
-    bid_amount = IntegerField('$', [validators.NumberRange(min=1)])
+    bid_amount = FloatField('$', [validators.NumberRange(min=1)])
     place = SubmitField('Place Bids')

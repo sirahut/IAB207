@@ -25,7 +25,7 @@ class Auctions(db.Model):
     condition = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(200))
     image = db.Column(db.String(400))
-    open_bid = db.Column(db.String(3), nullable=False)
+    open_bid = db.Column(db.Float(), nullable=False)
     start = db.Column(db.DateTime, default=datetime.now())
     # will change this later
     end = db.Column(db.DateTime)
@@ -78,7 +78,7 @@ class Watchlist(db.Model):
     def __repr__(self):
         return "<Name: {}>".format(self.text)
 
-    
+
 class Brand(db.Model):
     __tablename__ = 'brand'
     id = db.Column(db.Integer, primary_key=True)
@@ -86,7 +86,8 @@ class Brand(db.Model):
 
     def __repr__(self):
         return '[Brand {}]'.format(self.name)
-    
+
+
 class Model(db.Model):
     __tablename__ = 'model'
     id = db.Column(db.Integer, primary_key=True)

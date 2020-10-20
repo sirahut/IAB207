@@ -10,6 +10,7 @@ from flask_wtf.form import FlaskForm
 from flask.helpers import flash
 from unicodedata import name
 from sqlalchemy.databases import mysql, sqlite
+from sqlalchemy import func
 
 # create blueprint
 bp = Blueprint('auction', __name__, url_prefix='/auctions')
@@ -21,22 +22,44 @@ def show(id):
     placebid = PlaceBidForm()
     review_form = ReviewForm()
     watchlist_form = WatchListForm()
+    # get current bid amount
+    current_bid = db.session.query(
+        func.max(Bid.bid_amount)).filter_by(auction_id=id).scalar()
 
-    return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid)
+    # starting bid
+    starting_bid = float(auction.open_bid)
+    # bid number
+    bid_number = Bid.query.filter_by(auction_id=id).count()
+
+    if placebid.validate_on_submit():
+        # grab bid amount from the form
+        bid_amount = placebid.bid_amount.data
+
+        error = None
+        if current_bid is None:
+            # bid amount has to be greater than open bid
+            if (bid_amount < starting_bid):
+                error = 'Bid amount has to be greater than starting bid'
+        elif bid_amount < current_bid:
+            error = 'Bid amount must be greater than current bid'
+        if error is None:
+            bid = Bid(bid_amount=placebid.bid_amount.data,
+                      auction=auction, user=current_user)
+            db.session.add(bid)
+            db.session.commit()
+            return redirect(url_for('auction.show', id=id))
+        else:
+            flash(error, "danger")
+            print('bid amount is invalid')
+
+    return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid, current_bid=current_bid, bid_number=bid_number,
+                           starting_bid=starting_bid)
 
 
-@bp.route('/<id>/bid', methods=['GET', 'POST'])
-@login_required
+@ bp.route('/<id>/bid', methods=['GET', 'POST'])
+@ login_required
 def bid(id):
     placebid = PlaceBidForm()
-    if placebid.validate_on_submit():
-        auction_obj = Auctions.query.filter_by(id=id).first()
-        bid = Bid(bid_amount=placebid.bid_amount.data,
-                  auction=auction_obj, user=current_user)
-        db.session.add(bid)
-        db.session.commit()
-
-    return redirect(url_for('auction.show', id=id))
 
 
 def check_upload_file(form):
@@ -66,7 +89,6 @@ def create():
                             description=create_form.description.data,
                             image=db_file_path,
                             open_bid=create_form.open_bid.data,
-                            # start=create_form.open_bid.data,
                             user=current_user)
 
         db.session.add(auctions)

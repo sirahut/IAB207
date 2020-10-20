@@ -2,109 +2,113 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-<div class="row mt-2">
-    <div class="col-1">
-    </div>
-
-    <div class="col-4 ml-2">
-        <div class="text-center">
-            <!--image size & border-->
-            <style>
-                @media screen and (max-width: 767px) {
-                    #main-img {
-                            {
+<div class="container">
+    <div class="row mt-2">
+        <div class="col ml-2">
+            <div class="text-center">
+                <!--image size & border-->
+                <style>
+                    @media screen and (max-width: 767px) {
+                        #main-img {
                                 {
-                                auction.image
+                                    {
+                                    auction.image
+                                }
                             }
+
+
                         }
-
-
-                    }
-            </style>
-            <picture style="position:relative; left:0px; top:25px;">
-                <img src="{{auction.image}}" class="image" srcset="{{auction.image}} 5000w"
-                    style="border:5px solid black" style=".image;margin:50px 0px">
-            </picture>
-        </div>
-    </div>
-    <div class="col-5">
-        <div class="itemcard bg-light mb-3" style="position:relative; left: 0px; top:25px;">
-            <div class="card-header">{{ auction.name}}</div>
-            <div class="card-body">
-                <h5 class="card-title">Current bid: </h5>
-                <p class="card-text">13 bids</p>
-                <p class="card-text">2d 8h 10m left</p>
-
-                <!--Place bid form-->
-                <form class="form-inline" action="/auctions/{{auction.id}}/bid" method="POST" class="form" role="form">
-                    {{ bid_form.csrf_token() }}
-
-                    <div class="form-group mb-2">
-                        {{ wtf.form_field(bid_form.bid_amount, placeholder="AUD") }}
-
-                    </div>
-                    <button type="submit" id="place" name="place" class="btn btn-dark mb-2 ml-2">Place Bid</button>
-                </form>
-                <div>
-                    <p class="priceControl">(Enter AU $440.00 or more)</p>
-                </div>
-
-                <!--Add to Watchlist button-->
-                <form action="/watchlists/{{(auction.id)}}/addWatchlist" method="POST" class="form" role="form">
-                    {{ watchlist.csrf_token() }}
-                    <button type="submit" id="add" name="add" class="btn btn-outline-dark">Add to Watchlist</button>
-                </form>
-
-
+                </style>
+                <picture style="position:relative; left:0px; top:25px;">
+                    <img src="{{auction.image}}" class="image" srcset="{{auction.image}} 5000w"
+                        style="border:5px solid black" style=".image;margin:50px 0px">
+                </picture>
             </div>
         </div>
-    </div>
-</div>
-<div class="col-2">
-
-</div>
-
-<div class="row mt-2">
-
-    <div class="col-1">
-    </div>
-    <div class="col-10">
-        <div class="container" style="position:relative; left:-200px; top:25px;">
-            <!-- Nav pills -->
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab"
-                        aria-controls="description" aria-selected="true">Description</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab"
-                        aria-controls="review" aria-selected="false">Review</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#delivery" role="tab"
-                        aria-controls="delivery" aria-selected="false">Delivery</a>
-                </li>
-            </ul>
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div id="description" class="container tab-pane active"><br>
-                    <h3>Description</h3>
-                    <p>{{auction.description}}</p>
-                </div>
-                <!-- Review tab -->
-                <div id="review" class="container tab-pane fade"><br>
-                    <h3>Review</h3>
-
-                    {% for review in auction.reviews %}
-                    <div class="row border-bottom">
-                        <div class="col-md-12">
-                            <b>{{ review.user.name }} <span class="ml-2 text-muted">{{ review.create_at }}</span></b>
-                            <p>{{ review.text }}</p>
-                        </div>
+        <div class="col mt-0.5">
+            <div class="itemcard bg-light mb-3" style="position:relative; left: 0px; top:25px;">
+                <div class="card-header">{{ auction.name}}</div>
+                <div class="card-body">
+                    <p class="card-text">Starting bid: {{ starting_bid }}</p>
+                    <h5 class="card-title">Current bid: {{ current_bid }}</h5>
+                    <p class="card-text">{{ bid_number }} bids</p>
+                    <p class="card-text">2d 8h 10m left</p>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="row mt-3 mb-3">
+                        {% for category, message in messages %}
+                        <div class="alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                    {{wtf.quick_form(review_form, "/auctions/{0}/review".format(auction.id))}}
-                    <!-- <p> tantan77 (9 months ago)</p>
+                    {% endif %}
+                    {% endwith%}
+
+                    <!--Place bid form-->
+                    <form class="form-inline" action="/auctions/{{auction.id}}" method="POST" class="form" role="form">
+                        {{ bid_form.csrf_token() }}
+
+                        <div class="form-group mb-2">
+                            {{ wtf.form_field(bid_form.bid_amount, placeholder="AUD") }}
+
+                        </div>
+                        <button type="submit" id="place" name="place" class="btn btn-dark mb-2 ml-2">Place Bid</button>
+                    </form>
+                    <div>
+                        <p class="priceControl">(Enter AU $440.00 or more)</p>
+                    </div>
+
+                    <!--Add to Watchlist button-->
+                    <form action="/watchlists/{{(auction.id)}}/addWatchlist" method="POST" class="form" role="form">
+                        {{ watchlist.csrf_token() }}
+                        <button type="submit" id="add" name="add" class="btn btn-outline-dark">Add to Watchlist</button>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mt-2">
+
+
+            <div class="container" style="position:relative; left: 0px; top:25px;">
+                <!-- Nav pills -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab"
+                            aria-controls="description" aria-selected="true">Description</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="review-tab" data-toggle="tab" href="#review" role="tab"
+                            aria-controls="review" aria-selected="false">Review</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#delivery" role="tab"
+                            aria-controls="delivery" aria-selected="false">Delivery</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="description" class="container tab-pane active"><br>
+                        <h3>Description</h3>
+                        <p>{{auction.description}}</p>
+                    </div>
+                    <!-- Review tab -->
+                    <div id="review" class="container tab-pane fade"><br>
+                        <h3>Review</h3>
+
+                        {% for review in auction.reviews %}
+                        <div class="row border-bottom">
+                            <div class="col-md-12">
+                                <b>{{ review.user.name }} <span
+                                        class="ml-2 text-muted">{{ review.create_at }}</span></b>
+                                <p>{{ review.text }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {{wtf.quick_form(review_form, "/auctions/{0}/review".format(auction.id))}}
+                        <!-- <p> tantan77 (9 months ago)</p>
                     <p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por
                         scientie,
                         musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li
@@ -119,32 +123,38 @@
                             <button type="submit" class="btn btn-outline-dark mt-2">Submit</button>
                         </div>
                     </form> -->
-                </div>
-                <div id="delivery" class="container tab-pane fade"><br>
-                    <h3>Delivery Information</h3>
-                    <p>
-                        Delivery time frames will depend on your location, please check the shipping calculator to
-                        see
-                        an estimate of when you can typically expect to receive your goods based on your postcode.
+                    </div>
+                    <div id="delivery" class="container tab-pane fade"><br>
+                        <h3>Delivery Information</h3>
+                        <p>
+                            Delivery time frames will depend on your location, please check the shipping calculator
+                            to
+                            see
+                            an estimate of when you can typically expect to receive your goods based on your
+                            postcode.
 
-                        We will send you an email notifying you as soon as your items have left our warehouse.
+                            We will send you an email notifying you as soon as your items have left our warehouse.
 
-                        In this email, you will find the name of the courier company and the consignment note number
-                        of
-                        your item as well as information on tracking the delivery of your item online. Simply follow
-                        the
-                        link and enter your reference number. You will then be able to quickly and efficiently track
-                        the
-                        delivery status of your item!
+                            In this email, you will find the name of the courier company and the consignment note
+                            number
+                            of
+                            your item as well as information on tracking the delivery of your item online. Simply
+                            follow
+                            the
+                            link and enter your reference number. You will then be able to quickly and efficiently
+                            track
+                            the
+                            delivery status of your item!
 
-                        Please Note: Your goods will be delivered to your registered address. We do delivery
-                        Australia
-                        wide except for a few remote territories, please check the shipping calculator to confirm
-                        delivery availability and timeframes.</p>
+                            Please Note: Your goods will be delivered to your registered address. We do delivery
+                            Australia
+                            wide except for a few remote territories, please check the shipping calculator to
+                            confirm
+                            delivery availability and timeframes.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
