@@ -15,13 +15,19 @@ from sqlalchemy.databases import mysql, sqlite
 bp = Blueprint('auction', __name__, url_prefix='/auctions')
 
 
-@bp.route('/<id>')
-def show(id):
+@bp.route('/<id>',  methods=['GET', 'POST'])
+def show():
     auction = Auctions.query.filter_by(id=id).first()
     review_form = ReviewForm()
     watchlist_form = WatchListForm()
-    return render_template('auctions/show.html', auction=auction, form=review_form, form2=watchlist_form)
+    placebid = PlaceBid()
+    if placebid.validate_on_submit():
+        bid = Bid(open_bid=placebid.open_bid.data,
+                  )
 
+        db.session.add(bid)
+        db.session.commit()
+    return render_template('auctions/show.html', auction=auction, form=review_form, form2=watchlist_form, form3=placebid)
 
 def check_upload_file(form):
     fp = form.image.data
