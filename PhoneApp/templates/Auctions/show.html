@@ -107,7 +107,15 @@
                             </div>
                         </div>
                         {% endfor %}
-                        {{wtf.quick_form(review_form, "/auctions/{0}/review".format(auction.id))}}
+                        <form class="form" action="/auctions/{{auction.id}}/review" method="POST" class="form"
+                            role="form">
+                            {{ bid_form.csrf_token() }}
+
+                            {{ wtf.form_field(review_form.review ) }}
+
+                            <button type="submit" id="review" name="review" class="btn btn-outline-dark">Write
+                                Review</button>
+                        </form>
                         <!-- <p> tantan77 (9 months ago)</p>
                     <p>Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por
                         scientie,
