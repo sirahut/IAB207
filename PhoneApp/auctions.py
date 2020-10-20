@@ -92,4 +92,11 @@ def review(id):
 @bp.route('/listed', methods=['GET'])
 @login_required
 def listed():
-    return render_template('auctions/listed.html')
+    
+    auc = f"{Auctions.query.count():,}"
+    auc_items = Auctions.query.all()
+    auctioned = AuctionsForm(Auctions=auc, user=current_user)
+
+
+
+    return render_template('auctions/listed.html', count=auc, auctions=auc_items)

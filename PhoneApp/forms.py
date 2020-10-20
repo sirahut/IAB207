@@ -4,7 +4,7 @@ from wtforms.validators import InputRequired, Length, Email, EqualTo
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 from wtforms import Form, BooleanField, StringField, validators, DateTimeField, IntegerField
 from wtforms.fields.html5 import DateField, IntegerField
-from wtforms_sqlalchemy.fields import QuerySelectField
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from .models import Brand, Condition
 
 ALLOWED_FILE = ('png', 'jpg', 'JPG', 'PNG')

@@ -1,31 +1,37 @@
 {% extends 'base.html'%}
 
 {% block header %}
-
-
+            
   <div class="container">
     <table class="table table-sm">
         <h1>Items Listed</h1>
           <thead>
-            <th>ID</th>
+            <th>Listing</th>
             <th>Product</th>
-            <th>Price</th>
             <th>Brand</th>
+            <th>Condition</th>
+            <th>Description</th>
             <th>Image</th>
+            <th>Open Bid</th>
+            <th>Bid Creation Date</th>
             <th>Edit</th>
             <th>Delete</th>
           </thead>
         <tbody>
           <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+          {% for auction in auctions %}
+              <td>{{auction.name}}</td>
+              <td>{{auction.brand}}</td>
+              <td>{{auction.model}}</td>
+              <td>{{auction.condition}}</td>
+              <td>{{auction.description}}</td>
+              <td><img src={{auction.image}} alt="" border=3 height=100 width=100></img></td>
+              <td>{{auction.open_bid}}</td>
+              <td>{{auction.start}}</td>
+              <td><button type="button" class="btn btn-success">Edit</button></td>
+              <td><button type="button" class="btn btn-danger">Delete</button></td>
           </tr>     
-
+          {% endfor %}
       </table>
     </div>
   </div>
