@@ -25,9 +25,11 @@ def show(id):
     # get current bid amount
     current_bid = db.session.query(
         func.max(Bid.bid_amount)).filter_by(auction_id=id).scalar()
+    current_bid2f = "{:.2f}".format(current_bid)
 
     # starting bid
-    starting_bid = float(auction.open_bid)
+    starting_bid = (float(auction.open_bid))
+    starting_bid2f = "{:.2f}".format(starting_bid)
     # bid number
     bid_number = Bid.query.filter_by(auction_id=id).count()
 
@@ -52,14 +54,8 @@ def show(id):
             flash(error, "danger")
             print('bid amount is invalid')
 
-    return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid, current_bid=current_bid, bid_number=bid_number,
-                           starting_bid=starting_bid)
-
-
-@ bp.route('/<id>/bid', methods=['GET', 'POST'])
-@ login_required
-def bid(id):
-    placebid = PlaceBidForm()
+    return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid, current_bid=current_bid2f, bid_number=bid_number,
+                           starting_bid=starting_bid2f)
 
 
 def check_upload_file(form):
