@@ -37,7 +37,9 @@
 
                 <form class="form-inline">
 
-                    <div class="form-group mb-2">
+                     {{ wtf.quick_form(form3) }}
+
+                    <!-- <div class="form-group mb-2">
                         <label for="bidAmount">$</label>
                         <input type="text" class="form-control" placeholder="AUD">
                     </div>
@@ -48,7 +50,7 @@
                 </div>
                 <form action="/watchlists/{{(auction.id)}}/addWatchlist" method="POST" class="form" role="form">
                     {{ form.csrf_token() }}
-                    <button type="submit" id="add" name="add" class="btn btn-outline-dark">Add to Watchlist</button>
+                    <button type="submit" id="add" name="add" class="btn btn-outline-dark">Add to Watchlist</button> -->
                 </form>
 
 
