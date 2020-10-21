@@ -5,30 +5,41 @@
 {% endblock %}
 
 {% block head %}
-  {{ super() }}
-  <link type="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+{{ super() }}
+<link type="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <div class="row">
-        
-      <div class='col-md-4'></div>
-      <div class='col-md-4'>
-        <h1>Create A Listing</h1>
-        {{ wtf.quick_form(form) }}
+<div class="container">
+  <div class="row">
+
+    <div class='col-md-4'></div>
+    <div class='col-md-4'>
+      <h1>Create A Listing</h1>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="row mt-3 mb-3">
+        {% for category, message in messages %}
+        <div class="alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
       </div>
+      {% endif %}
+      {% endwith%}
+      {{ wtf.quick_form(form) }}
     </div>
   </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-  {{ super() }}
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-  <script type="text/javascript">
-    $(function () {
-      $('#datepick').datetimepicker();
-    });
-  </script>
+{{ super() }}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('#datepick').datetimepicker();
+  });
+</script>
 {% endblock %}

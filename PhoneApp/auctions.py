@@ -29,7 +29,9 @@ def show(id):
     current_bid = db.session.query(
         func.max(Bid.bid_amount)).filter_by(auction_id=id).scalar()
     # format 2 decimal number
-    current_bid2f = "{:.2f}".format(current_bid)
+    current_bid2f = None
+    if current_bid is not None:
+        current_bid2f = "{:.2f}".format(current_bid)
 
     # starting bid
     starting_bid = (float(auction.open_bid))
@@ -80,7 +82,8 @@ def show(id):
 
 # ------- watchlist button and add to watchlist function -----
     add_to_watchlist_button = ''
-    watchlistAdded = Watchlist.query.filter_by(user_id=id).first()
+    watchlistAdded = Watchlist.query.filter_by(
+        user_id=current_user.id).filter_by(auction_id=id).first()
     # if there is no this auction in the watchlist
     if watchlistAdded is None:
         add_to_watchlist_button = 'Add to Watchlist'
@@ -139,10 +142,13 @@ def create():
 
         db.session.add(auctions)
         db.session.commit()
-
+        message = "The list has been created successfully"
+        flash(message, "success")
         print('Successfully created new auction listing', 'success')
         return redirect(url_for('auction.create'))
-
+    else:
+        error = "Invalid input"
+        flash(error, "danger")
     return render_template('auctions/create.html', form=create_form)
 
 

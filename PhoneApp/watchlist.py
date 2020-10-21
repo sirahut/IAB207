@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, redirect
-from .models import Watchlist, Auctions
+from .models import Watchlist, Auctions, User
 from .forms import WatchListForm
 from flask_login import login_required, current_user
 from datetime import datetime
@@ -19,27 +19,8 @@ bp = Blueprint('watchlist', __name__, url_prefix='/watchlists')
 @bp.route('/<id>')
 def watchlist(id):
     # the "id" has to be id of the user_id
-    watchlist = Watchlist.query.filter_by(id=id).first()
+    user = User.query.filter_by(id=id).first()
+    watchlists = Watchlist.query.filter_by(user_id=id).all()
+    #auction = Auctions.query.filter_by(id=auction_id)
 
-    return render_template('watchlist/watchlist.html', watchlist=watchlist)
-
-
-@bp.route('/<id>/addWatchlist', methods=['GET', 'POST'])
-@login_required
-def add_to_watchlist(id):
-    #watchlist_form_instance = WatchListForm()
-    # if the auction already in the watchlist
-    watchlistAdded = Watchlist.query.filter_by(user_id=id).first()
-    if watchlistAdded is not None:
-        # set button to "Remove from Watchlist"
-        add_to_watchlist_button = 'Remove from Watchlist'
-    else:
-        add_to_watchlist_button = 'Add to Watchlist'
-
-    auction_obj = Auctions.query.filter_by(id=id).first()
-    watchlist = Watchlist(auction=auction_obj, user=current_user)
-
-    db.session.add(watchlist)
-    db.session.commit()
-
-    return redirect(url_for('auction.show', id=id))
+    return render_template('watchlist/watchlist.html', user=user)
