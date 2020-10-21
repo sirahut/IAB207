@@ -54,7 +54,7 @@
                         <button type="submit" id="place" name="place" class="btn btn-dark mb-2 ml-2">Place Bid</button>
                     </form>
                     <div>
-                        <p class="priceControl">(Enter AU ${{priceControl}} or more)</p>
+                        <p class="text-muted">(Enter AU ${{priceControl}} or more)</p>
                     </div>
 
                     <!--Add to Watchlist button-->
@@ -103,7 +103,7 @@
                         <div class="row border-bottom">
                             <div class="col-md-12">
                                 <b>{{ review.user.name }} <span
-                                        class="ml-2 text-muted">{{ review.create_at }}</span></b>
+                                        class="ml-2 text-muted">{{ (review.created_at.strftime('%d-%m-%Y')) }}</span></b>
                                 <p>{{ review.text }}</p>
                             </div>
                         </div>
