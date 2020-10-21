@@ -44,7 +44,8 @@
                     {% endwith%}
 
                     <!--Place bid form-->
-                    <form class="form-inline" action="/auctions/{{auction.id}}" method="POST" class="form" role="form">
+                    <form class="form-inline" action="/auctions/{{auction.id}}/bid" method="POST" class="form"
+                        role="form">
                         {{ bid_form.csrf_token() }}
 
                         <div class="form-group mb-2">
@@ -58,7 +59,7 @@
                     </div>
 
                     <!--Add to Watchlist button-->
-                    <form action="/auctions/{{(auction.id)}}" method="POST" class="form" role="form">
+                    <form action="/watchlists/{{(auction.id)}}/add" method="POST" class="form" role="form">
                         {{ watchlist.csrf_token() }}
                         <button type="submit" id="add" name="add"
                             class="btn btn-outline-dark">{{add_to_watchlist_button}}</button>

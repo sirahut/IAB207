@@ -24,7 +24,7 @@ def show(id):
     placebid = PlaceBidForm()
     review_form = ReviewForm()
     watchlist_form = WatchListForm()
-
+# --------- attribute on the page show.html ----------
     # get current bid from the database
     current_bid = db.session.query(
         func.max(Bid.bid_amount)).filter_by(auction_id=id).scalar()
@@ -50,10 +50,40 @@ def show(id):
     # format 2 decimal number
     priceControl2f = "{:.2f}".format(priceControl)
 
-# --------placebid function--------
+# ------- watchlist button -----
+    add_to_watchlist_button = ''
+    watchlistAdded = Watchlist.query.filter_by(
+        user_id=current_user.id).filter_by(auction_id=id).first()
+    # if there is no this auction in the watchlist
+    if watchlistAdded is None:
+        add_to_watchlist_button = 'Add to Watchlist'
+
+    # if the auction already in the watchlist
+    else:
+        # set button to "Remove from Watchlist"
+        add_to_watchlist_button = 'Remove from Watchlist'
+
+# -------- end of watchlist button ---------
+
+    return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid, current_bid=current_bid2f, bid_number=bid_number,
+                           starting_bid=starting_bid2f, priceControl=priceControl2f, add_to_watchlist_button=add_to_watchlist_button)
+
+
+@bp.route('/<id>/bid', methods=['GET', 'POST'])
+@login_required
+def placebid(id):
+    placebid = PlaceBidForm()
+    # --------placebid function--------
     if placebid.validate_on_submit():
+        # get auction from database
+        auction = Auctions.query.filter_by(id=id).first()
         # grab bid amount from the form (user input)
         bid_amount = placebid.bid_amount.data
+        # starting bid
+        starting_bid = (float(auction.open_bid))
+        # get current bid from the database
+        current_bid = db.session.query(
+            func.max(Bid.bid_amount)).filter_by(auction_id=id).scalar()
 
         error = None
         # if there are no bids at all
@@ -77,38 +107,8 @@ def show(id):
             # render the error to show.html
             flash(error, "danger")
             print('bid amount is invalid')
+    return redirect(url_for('auction.show', id=id))
 # ------- end of bid function --------
-
-
-# ------- watchlist button and add to watchlist function -----
-    add_to_watchlist_button = ''
-    watchlistAdded = Watchlist.query.filter_by(
-        user_id=current_user.id).filter_by(auction_id=id).first()
-    # if there is no this auction in the watchlist
-    if watchlistAdded is None:
-        add_to_watchlist_button = 'Add to Watchlist'
-        if watchlist_form.validate_on_submit():
-            watchlist = Watchlist(auction=auction, user=current_user)
-
-            db.session.add(watchlist)
-            db.session.commit()
-
-            return redirect(url_for('auction.show', id=id))
-
-    # if the auction already in the watchlist
-    else:
-        # set button to "Remove from Watchlist"
-        add_to_watchlist_button = 'Remove from Watchlist'
-        if watchlist_form.validate_on_submit():
-            # find that auction in the Watchlist table
-            Watchlist.query.filter_by(auction_id=id).delete()
-
-            db.session.commit()
-            return redirect(url_for('auction.show', id=id))
-# -------- end of watchlist button and function ---------
-
-    return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid, current_bid=current_bid2f, bid_number=bid_number,
-                           starting_bid=starting_bid2f, priceControl=priceControl2f, add_to_watchlist_button=add_to_watchlist_button)
 
 
 def check_upload_file(form):

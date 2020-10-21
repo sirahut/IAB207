@@ -17,6 +17,7 @@ bp = Blueprint('watchlist', __name__, url_prefix='/watchlists')
 
 
 @bp.route('/<id>')
+@login_required
 def watchlist(id):
     # the "id" has to be id of the user_id
     user = User.query.filter_by(id=id).first()
@@ -24,3 +25,37 @@ def watchlist(id):
     #auction = Auctions.query.filter_by(id=auction_id)
 
     return render_template('watchlist/watchlist.html', user=user)
+
+
+@bp.route('/<id>/add', methods=['GET', 'POST'])
+@login_required
+def add_to_watchlist(id):
+    # get WatchlistForm
+    watchlist_form = WatchListForm()
+    # get an auction from the database
+    auction = Auctions.query.filter_by(id=id).first()
+
+    # ------- Add to Watchlist function -----
+    watchlistAdded = Watchlist.query.filter_by(
+        user_id=current_user.id).filter_by(auction_id=id).first()
+    # if there is no this auction in the watchlist
+    # Add to Watchlist button
+    if watchlistAdded is None:
+        if watchlist_form.validate_on_submit():
+            watchlist = Watchlist(auction=auction, user=current_user)
+
+            db.session.add(watchlist)
+            db.session.commit()
+
+            return redirect(url_for('auction.show', id=id))
+
+    # if the auction already in the watchlist
+    else:
+        # Remove button
+        if watchlist_form.validate_on_submit():
+            # find that auction in the Watchlist table
+            Watchlist.query.filter_by(auction_id=id).delete()
+
+            db.session.commit()
+            return redirect(url_for('auction.show', id=id))
+# -------- end of watchlist button and function ---------
