@@ -28,10 +28,18 @@ def watchlist(id):
 @login_required
 def add_to_watchlist(id):
     #watchlist_form_instance = WatchListForm()
+    # if the auction already in the watchlist
+    watchlistAdded = Watchlist.query.filter_by(user_id=id).first()
+    if watchlistAdded is not None:
+        # set button to "Remove from Watchlist"
+        add_to_watchlist_button = 'Remove from Watchlist'
+    else:
+        add_to_watchlist_button = 'Add to Watchlist'
+
     auction_obj = Auctions.query.filter_by(id=id).first()
     watchlist = Watchlist(auction=auction_obj, user=current_user)
 
     db.session.add(watchlist)
     db.session.commit()
-   
+
     return redirect(url_for('auction.show', id=id))

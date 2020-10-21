@@ -54,13 +54,14 @@
                         <button type="submit" id="place" name="place" class="btn btn-dark mb-2 ml-2">Place Bid</button>
                     </form>
                     <div>
-                        <p class="priceControl">(Enter AU $440.00 or more)</p>
+                        <p class="priceControl">(Enter AU ${{priceControl}} or more)</p>
                     </div>
 
                     <!--Add to Watchlist button-->
-                    <form action="/watchlists/{{(auction.id)}}/addWatchlist" method="POST" class="form" role="form">
+                    <form action="/auctions/{{(auction.id)}}" method="POST" class="form" role="form">
                         {{ watchlist.csrf_token() }}
-                        <button type="submit" id="add" name="add" class="btn btn-outline-dark">Add to Watchlist</button>
+                        <button type="submit" id="add" name="add"
+                            class="btn btn-outline-dark">{{add_to_watchlist_button}}</button>
                     </form>
 
 
@@ -109,7 +110,7 @@
                         {% endfor %}
                         <form class="form" action="/auctions/{{auction.id}}/review" method="POST" class="form"
                             role="form">
-                            {{ bid_form.csrf_token() }}
+                            {{ review_form.csrf_token() }}
 
                             {{ wtf.form_field(review_form.review ) }}
 

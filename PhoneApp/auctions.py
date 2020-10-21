@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, redirect, request
-from .models import Auctions, Review, Bid
+from .models import Auctions, Review, Bid, Watchlist
 from .forms import AuctionsForm, ReviewForm, WatchListForm, PlaceBidForm
 from flask_login import login_required, current_user
 from datetime import datetime
@@ -18,44 +18,94 @@ bp = Blueprint('auction', __name__, url_prefix='/auctions')
 
 @bp.route('/<id>',  methods=['GET', 'POST'])
 def show(id):
+    # get auction from database
     auction = Auctions.query.filter_by(id=id).first()
+    # get all the form
     placebid = PlaceBidForm()
     review_form = ReviewForm()
     watchlist_form = WatchListForm()
-    # get current bid amount
+
+    # get current bid from the database
     current_bid = db.session.query(
         func.max(Bid.bid_amount)).filter_by(auction_id=id).scalar()
+    # format 2 decimal number
     current_bid2f = "{:.2f}".format(current_bid)
 
     # starting bid
     starting_bid = (float(auction.open_bid))
+    # format 2 decimal number
     starting_bid2f = "{:.2f}".format(starting_bid)
-    # bid number
+    # bid number count
     bid_number = Bid.query.filter_by(auction_id=id).count()
 
+    # priceControl
+    priceControl = ''
+    # add one to starting bid/ current bid
+    if current_bid is None:
+        priceControl = starting_bid + 1
+    else:
+        priceControl = current_bid + 1
+    # format 2 decimal number
+    priceControl2f = "{:.2f}".format(priceControl)
+
+# --------placebid function--------
     if placebid.validate_on_submit():
-        # grab bid amount from the form
+        # grab bid amount from the form (user input)
         bid_amount = placebid.bid_amount.data
 
         error = None
+        # if there are no bids at all
         if current_bid is None:
-            # bid amount has to be greater than open bid
+            # bid amount(user input) has to be greater than open bid
             if (bid_amount < starting_bid):
                 error = 'Bid amount has to be greater than starting bid'
+        # if bid amount(user input) is less than current bid
         elif bid_amount < current_bid:
             error = 'Bid amount must be greater than current bid'
+        # if the bid amount is valid
         if error is None:
+            # update to the database
             bid = Bid(bid_amount=placebid.bid_amount.data,
                       auction=auction, user=current_user)
             db.session.add(bid)
             db.session.commit()
+            # refresh the page
             return redirect(url_for('auction.show', id=id))
         else:
+            # render the error to show.html
             flash(error, "danger")
             print('bid amount is invalid')
+# ------- end of bid function --------
+
+
+# ------- watchlist button and add to watchlist function -----
+    add_to_watchlist_button = ''
+    watchlistAdded = Watchlist.query.filter_by(user_id=id).first()
+    # if there is no this auction in the watchlist
+    if watchlistAdded is None:
+        add_to_watchlist_button = 'Add to Watchlist'
+        if watchlist_form.validate_on_submit():
+            watchlist = Watchlist(auction=auction, user=current_user)
+
+            db.session.add(watchlist)
+            db.session.commit()
+
+            return redirect(url_for('auction.show', id=id))
+
+    # if the auction already in the watchlist
+    else:
+        # set button to "Remove from Watchlist"
+        add_to_watchlist_button = 'Remove from Watchlist'
+        if watchlist_form.validate_on_submit():
+            # find that auction in the Watchlist table
+            Watchlist.query.filter_by(auction_id=id).delete()
+
+            db.session.commit()
+            return redirect(url_for('auction.show', id=id))
+# -------- end of watchlist button and function ---------
 
     return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid, current_bid=current_bid2f, bid_number=bid_number,
-                           starting_bid=starting_bid2f)
+                           starting_bid=starting_bid2f, priceControl=priceControl2f, add_to_watchlist_button=add_to_watchlist_button)
 
 
 def check_upload_file(form):
