@@ -19,23 +19,23 @@ def brand_query():
 
 
 class AuctionsForm(FlaskForm):
-    name = StringField('Name', validators=[
-                       InputRequired('Country is required')])
-    # brand = QuerySelectField(
-    # query_factory=brand_query, allow_blank=True, get_label='condition')
-    brand = StringField('Brand', validators=[
-                        InputRequired('Brand Is Required')])
+    title = StringField('Title', validators=[
+        InputRequired('Title is required')])
+    brand = QuerySelectField(
+        query_factory=brand_query, allow_blank=False, get_label='brand')
+    # brand = StringField('Brand', validators=[
+    #                     InputRequired('Brand Is Required')])
 
-    model = StringField('Model No.', validators=[
-                        InputRequired('Model No. Is Required')])
-    # condition = QuerySelectField(
-    # query_factory=condition_query, allow_blank=True, get_label='name')
-    condition = StringField('Condition', validators=[
-        InputRequired('Condition Is Required')])
+    model = StringField('Model', validators=[
+                        InputRequired('Model is required')])
+    condition = QuerySelectField(
+        query_factory=condition_query, allow_blank=False, get_label='condition')
+    # condition = StringField('Condition', validators=[
+    #     InputRequired('Condition Is Required')])
     description = StringField('Description', validators=[InputRequired('Description is required'),
                                                          Length(min=10, max=300, message='Description is too short or too long')])
     image = FileField('Mobile Images', validators=[
-        FileRequired(message='Image can not be empty'),
+        FileRequired(message='Please add an image'),
         FileAllowed(ALLOWED_FILE, message="Only supports valid filetypes")])
 
     open_bid = FloatField('Opening Bid', [validators.NumberRange(min=100)])

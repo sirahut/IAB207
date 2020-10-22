@@ -131,7 +131,7 @@ def create():
     create_form = AuctionsForm()
     if create_form.validate_on_submit():
         db_file_path = check_upload_file(create_form)
-        auctions = Auctions(name=create_form.name.data,
+        auctions = Auctions(title=create_form.title.data,
                             brand=create_form.brand.data,
                             model=create_form.model.data,
                             condition=create_form.condition.data,

@@ -19,10 +19,10 @@ class User(db.Model, UserMixin):
 class Auctions(db.Model):
     __tablename__ = 'auctions'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    brand = db.Column(db.String(80), nullable=False)
+    title = db.Column(db.String(80), nullable=False)
+    # brand = db.Column(db.String(80), nullable=False)
     model = db.Column(db.String(80), nullable=False)
-    condition = db.Column(db.String(80), nullable=False)
+    # condition = db.Column(db.String(80), nullable=False)
     description = db.Column(db.String(200))
     image = db.Column(db.String(400))
     open_bid = db.Column(db.Float(), nullable=False)
@@ -32,6 +32,8 @@ class Auctions(db.Model):
     # auction status
     # FK
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
+    condition_id = db.Column(db.Integer, db.ForeignKey('condition.id'))
     # backref
     reviews = db.relationship('Review', backref='auction')
     bids = db.relationship('Bid', backref='auction')
@@ -80,9 +82,11 @@ class Watchlist(db.Model):
 
 
 class Brand(db.Model):
-    __tablename__ = 'brand'
+    __tablename__ = 'brands'
     id = db.Column(db.Integer, primary_key=True)
-    condition = db.Column(db.String(50))
+    brand = db.Column(db.String(80))
+
+    auctions = db.relationship('Auctions', backref='brand')
 
     def __repr__(self):
         return '[Brand {}]'.format(self.name)
@@ -100,7 +104,9 @@ class Model(db.Model):
 class Condition(db.Model):
     __tablename__ = 'condition'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
+    condition = db.Column(db.String(50))
+
+    auctions = db.relationship('Auctions', backref='condition')
 
     def __repr__(self):
         return '[Condition {}]'.format(self.name)
