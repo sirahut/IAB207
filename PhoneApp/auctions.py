@@ -180,4 +180,6 @@ def listed():
     auc_items = Auctions.query.all()
     auctioned = AuctionsForm(Auctions=auc, user=current_user)
 
+    
+
     return render_template('auctions/listed.html', count=auc, auctions=auc_items)
