@@ -8,6 +8,7 @@ from PhoneApp.forms import AuctionsForm, ReviewForm
 from PhoneApp.models import Auctions, Review
 from werkzeug.utils import secure_filename
 from PhoneApp.auctions import check_upload_file
+from flask.helpers import flash
 
 
 # create blueprint
@@ -23,9 +24,13 @@ def watchlist(id):
     user = User.query.filter_by(id=id).first()
     watchlists = Watchlist.query.filter_by(user_id=id).all()
     #auction = Auctions.query.filter_by(id=auction_id)
-
+    # if user is logged user cannot access other users watchlist
+    if user != current_user:
+        flash('You cannot access this users Listed Items')
+        return(url_for('watchlist.watchlist', id=id))
+    #############################################################
     return render_template('watchlist/watchlist.html', user=user)
-
+    
 
 @bp.route('/<id>/add', methods=['GET', 'POST'])
 @login_required
@@ -33,7 +38,7 @@ def add_to_watchlist(id):
     # get WatchlistForm
     watchlist_form = WatchListForm()
     # get an auction from the database
-    auction = Auctions.query.filter_by(id=id).first()
+    auction = Auctions.query.filter_by_or_404(id=id).first()
 
     # ------- Add to Watchlist function -----
     watchlistAdded = Watchlist.query.filter_by(
@@ -48,7 +53,7 @@ def add_to_watchlist(id):
             db.session.commit()
 
             return redirect(url_for('auction.show', id=id))
-
+            
     # if the auction already in the watchlist
     else:
         # Remove button
