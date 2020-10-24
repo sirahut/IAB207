@@ -11,6 +11,12 @@ from flask.helpers import flash
 from unicodedata import name
 from sqlalchemy.databases import mysql, sqlite
 from sqlalchemy import func
+from sqlalchemy.sql.functions import user
+from PhoneApp.models import User
+from werkzeug.exceptions import abort
+import sqlalchemy
+from sqlalchemy.engine import create_engine
+
 
 # create blueprint
 bp = Blueprint('auction', __name__, url_prefix='/auctions')
@@ -138,8 +144,6 @@ def create():
                             description=create_form.description.data,
                             image=db_file_path,
                             open_bid=create_form.open_bid.data,
-                            start=create_form.start.data,
-                            end=create_form.end.data,
                             user=current_user)
 
         db.session.add(auctions)
@@ -149,9 +153,9 @@ def create():
         print('Successfully created new auction listing', 'success')
         return redirect(url_for('auction.create'))
     else:
-        # error = "Invalid input"
-        # flash(error, "danger")
-        return render_template('auctions/create.html', form=create_form)
+        error = "Invalid input"
+        flash(error, "danger")
+    return render_template('auctions/create.html', form=create_form)
 
 
 @bp.route('/<id>/review', methods=['GET', 'POST'])
@@ -174,12 +178,42 @@ def review(id):
     return redirect(url_for('auction.show', id=id))
 
 
-@bp.route('/listed', methods=['GET'])
+@bp.route('/listed/<id>', methods=['GET'])
 @login_required
-def listed():
+def listed(id):
+    auction_item = AuctionsForm()
+    user = User.query.filter_by(id=id).first()
+    auction = Auctions.query.filter_by(user_id=id).all()
+    
+    if user != current_user:
+        flash(url_for('You Cannot Access this Users Listed Items'))
+        return redirect(url_for('auction.listed', id=id))
+    return render_template('auctions/listed.html', user=user)
 
-    auc = f"{Auctions.query.count():,}"
-    auc_items = Auctions.query.all()
-    auctioned = AuctionsForm(Auctions=auc, user=current_user)
 
-    return render_template('auctions/listed.html', count=auc, auctions=auc_items)
+
+@bp.route("/auctions/listed/<id>/delete", methods=['POST'])
+@login_required
+def delete_component(id):
+    engine = create_engine('sqlite:///techdrop.sqlite')
+    cur = engine.connection()
+
+    cur.execute("DELETE FROM auctions WHERE id =%s", [id])
+
+    engine.connection.commit()
+
+    cur.close()
+
+    flash('Article Deleted', 'Success')
+
+    return render_template('auctions/index.html', user=user)
+
+
+
+
+
+
+
+
+
+

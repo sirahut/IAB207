@@ -4,7 +4,20 @@
             
   <div class="container">
     <table class="table table-sm">
+          <span class="col">
+              <h3 class="headp3">Your Listed Items {{user.name}}</h3>
+          </span>
         <h1>Items Listed</h1>
+            <span id="sortBy">
+
+            <select>
+                <option>Ending Soonest</option>
+                <option>Price:Low-High</option>
+                <option>Price:High-Low</option>
+                <option>Recently Added</option>
+            </select>
+            <br></br>
+            </span>
           <thead>
             <th>Listing</th>
             <th>Product</th>
@@ -13,27 +26,28 @@
             <th>Description</th>
             <th>Image</th>
             <th>Open Bid</th>
-            <th>Bid Creation Date</th>
             <th>Edit</th>
             <th>Delete</th>
           </thead>
         <tbody>
           <tr>
-          {% for auction in auctions %}
-              <td>{{auction.name}}</td>
-              <td>{{auction.brand}}</td>
+          
+          {% for auction in user.auctions %}
+              <td>{{auction.id}}</td>
+              <td>{{auction.title}}</td>
               <td>{{auction.model}}</td>
-              <td>{{auction.condition}}</td>
               <td>{{auction.description}}</td>
               <td><img src={{auction.image}} alt="" border=3 height=100 width=100></img></td>
               <td>{{auction.open_bid}}</td>
               <td>{{auction.start}}</td>
-              <td><button type="button" class="btn btn-success">Edit</button></td>
-              <td><button type="button" class="btn btn-danger">Delete</button></td>
+              <td><button type="button" class="btn btn-success"  >Edit</button></td>
+              <td><button type="button" class="btn btn-danger" value="Delete" >Delete</button></td>
           </tr>     
           {% endfor %}
       </table>
     </div>
   </div>
+
+
 
   {% endblock %}

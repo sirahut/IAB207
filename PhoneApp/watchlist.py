@@ -26,7 +26,7 @@ def watchlist(id):
     #auction = Auctions.query.filter_by(id=auction_id)
     # if user is logged user cannot access other users watchlist
     if user != current_user:
-        flash('You cannot access this users Listed Items')
+        flash('You cannot access this users Watchlist Items')
         return(url_for('watchlist.watchlist', id=id))
     #############################################################
     return render_template('watchlist/watchlist.html', user=user)
@@ -38,7 +38,7 @@ def add_to_watchlist(id):
     # get WatchlistForm
     watchlist_form = WatchListForm()
     # get an auction from the database
-    auction = Auctions.query.filter_by_or_404(id=id).first()
+    auction = Auctions.query.filter_by(id=id).first()
 
     # ------- Add to Watchlist function -----
     watchlistAdded = Watchlist.query.filter_by(
