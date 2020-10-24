@@ -184,12 +184,11 @@ def listed(id):
     auction_item = AuctionsForm()
     user = User.query.filter_by(id=id).first()
     auction = Auctions.query.filter_by(user_id=id).all()
-    
+
     if user != current_user:
         flash(url_for('You Cannot Access this Users Listed Items'))
         return redirect(url_for('auction.listed', id=id))
     return render_template('auctions/listed.html', user=user)
-
 
 
 @bp.route("/auctions/listed/<id>/delete", methods=['POST'])
@@ -209,11 +208,6 @@ def delete_component(id):
     return render_template('auctions/index.html', user=user)
 
 
-
-
-
-
-
-
-
-
+@bp.route('/categories')
+def index():
+    return "This is your category"
