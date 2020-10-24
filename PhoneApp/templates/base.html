@@ -40,10 +40,6 @@
       #ProfileDropdown {
         margin-left: 700px;
       }
-
-      #userdropdown {
-        padding-left: 20px;
-      }
     </style>
 
     <!-- <nav class="navbar navbar-dark bg-dark">
@@ -96,12 +92,17 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Shop by category
+                Search by category
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="#">New</a>
+                <a class="dropdown-item" href="#">Used</a>
+                <a class="dropdown-item" href="#">Opened - Never Used</a>
+                <a class="dropdown-item" href="#">Seller Refurbished</a>
+                <a class="dropdown-item" href="#">Manufacturer Refurbished</a>
+                <a class="dropdown-item" href="#">Not Working - For Parts</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">All Phone Brands</a>
               </div>
             </li>
             <li class="nav-item active">
@@ -113,7 +114,7 @@
                 </svg> Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
+              <a class="nav-link" href="#">Watch List</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Pricing</a>
@@ -127,7 +128,7 @@
                     Hello {{current_user.name}}!
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="userdropdown">
-                    <a class="text-info" href="{{ url_for('auction.create') }}">
+                    <a class="dropdown-item" href="{{ url_for('auction.create') }}">
                       <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -138,7 +139,7 @@
                       List An Item
                     </a>
                     <a class="dropdown-item" href="#">Another action</a>
-                    <a class="text-info" href="{{ url_for('auth.logout') }}"
+                    <a class="dropdown-item" href="{{ url_for('auth.logout') }}"
                       style="position:relative; left: 5px; top:0px;">
                       <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-door-open-fill" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
@@ -153,16 +154,21 @@
                     Hello! Sign in
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="userdropdown">
-                    <a class="text-info" href="{{ url_for('auth.login') }}">
+                    <a class="dropdown-item" href="{{ url_for('auth.login') }}">
                       <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-door-closed-fill"
                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                           d="M4 1a1 1 0 0 0-1 1v13H1.5a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2a1 1 0 0 0-1-1H4zm2 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
                       </svg>
-
                       Log In</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="{{ url_for('auth.register') }}">
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-signpost-2-fill"
+                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 1.414V16h2V1.414a1 1 0 0 0-2 0z" />
+                        <path
+                          d="M1 3a1 1 0 0 1 1-1h11.5a1 1 0 0 1 .8.4l.975 1.3a.5.5 0 0 1 0 .6L14.3 5.6a1 1 0 0 1-.8.4H2a1 1 0 0 1-1-1V3zm14 5a1 1 0 0 0-1-1H2.5a1 1 0 0 0-.8.4L.725 8.7a.5.5 0 0 0 0 .6l.975 1.3a1 1 0 0 0 .8.4H14a1 1 0 0 0 1-1V8z" />
+                      </svg>
+                      Register</a>
                   </div>
                   {% endif %}
               </ul>
@@ -220,23 +226,12 @@
                     <path fill-rule="evenodd"
                       d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2v13h1V2.5a.5.5 0 0 0-.5-.5H11zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z" />
                   </svg>
-                  Log Out</a>
+                  Log Out</a> -->
 
-<<<<<<< HEAD
-                <a class="text-info" href="{{ url_for('auction.listed') }}"
-                  style="position:relative; left: 10px; top:0px;">
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                      d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
-=======
-                  <a class="text-info"  href="" style = "position:relative; left: 10px; top:0px;">
-                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
->>>>>>> cd9cdf6f302aef93d241a368da8c10f459e914cc
-                  </svg>
-                  Listed Items</a>
-                {% else %}
+    <!-- LISTED GOES HERE -->
+
+
+    <!-- {% else %}
                 <a class="text-info" href="{{ url_for('auth.register') }}">
                   <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-signpost-2-fill" fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg">
