@@ -152,9 +152,7 @@ def create():
         flash(message, "success")
         print('Successfully created new auction listing', 'success')
         return redirect(url_for('auction.create'))
-    else:
-        error = "Invalid input"
-        flash(error, "danger")
+
     return render_template('auctions/create.html', form=create_form)
 
 
@@ -184,11 +182,10 @@ def listed(id):
     auction_item = AuctionsForm()
     user = User.query.filter_by(id=id).first()
     auction = Auctions.query.filter_by(user_id=id).all()
-    
+
     if user != current_user:
         return redirect(url_for('main.index', id=id))
     return render_template('auctions/listed.html', user=user)
-
 
 
 @bp.route("/delete/<id>", methods=['GET', 'POST'])
@@ -202,23 +199,13 @@ def delete_component(id):
     else:
         return("/")
 
+
 @bp.route("/listed/<id>/updated", methods=['GET', 'POST'])
 @login_required
 def edit_component(id):
-   
+
     user = Auctions.query.filter_by(id=id)
     auction_item = AuctionsForm()
-#currently empty function
-    
+# currently empty function
+
     return render_template('auctions/update.html', id=id, user=user, form=auction_item)
-
-
-
-
-
-
-
-
-
-
-
