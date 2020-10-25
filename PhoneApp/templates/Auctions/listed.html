@@ -19,30 +19,36 @@
             <br></br>
             </span>
           <thead>
-            <th>Listing</th>
-            <th>Product</th>
+
             <th>Brand</th>
-            <th>Condition</th>
+            <th>Model No.</th>
             <th>Description</th>
             <th>Image</th>
             <th>Open Bid</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th>Posted On:</th>            
+            <th></th>
+            <th></th>
           </thead>
         <tbody>
           <tr>
           
           {% for auction in user.auctions %}
-              <td>{{auction.id}}</td>
               <td>{{auction.title}}</td>
               <td>{{auction.model}}</td>
               <td>{{auction.description}}</td>
               <td><img src={{auction.image}} alt="" border=3 height=100 width=100></img></td>
               <td>{{auction.open_bid}}</td>
               <td>{{auction.start}}</td>
-              <td><button type="button" class="btn btn-success"  >Edit</button></td>
-              <td><button type="button" class="btn btn-danger" value="Delete" >Delete</button></td>
-          </tr>     
+              <td>
+                  <form action ="{{url_for('auction.edit_component', id=auction.id)}}" method="POST">
+                    <input type="submit" value="Update" />
+              </td>
+              <td>
+                  <form action ="{{url_for('auction.delete_component', id=auction.id)}}" method="POST">
+                    <input type="submit" value="Delete" />
+              </td>
+          </tr>
+     
           {% endfor %}
       </table>
     </div>
