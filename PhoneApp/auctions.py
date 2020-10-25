@@ -153,9 +153,9 @@ def create():
         print('Successfully created new auction listing', 'success')
         return redirect(url_for('auction.create'))
     else:
-        # error = "Invalid input"
-        # flash(error, "danger")
-        return render_template('auctions/create.html', form=create_form)
+        error = "Invalid input"
+        flash(error, "danger")
+    return render_template('auctions/create.html', form=create_form)
 
 
 @bp.route('/<id>/review', methods=['GET', 'POST'])
@@ -184,30 +184,41 @@ def listed(id):
     auction_item = AuctionsForm()
     user = User.query.filter_by(id=id).first()
     auction = Auctions.query.filter_by(user_id=id).all()
-
+    
     if user != current_user:
-        flash(url_for('You Cannot Access this Users Listed Items'))
-        return redirect(url_for('auction.listed', id=id))
+        return redirect(url_for('main.index', id=id))
     return render_template('auctions/listed.html', user=user)
 
 
-@bp.route("/auctions/listed/<id>/delete", methods=['POST'])
+
+@bp.route("/delete/<id>", methods=['GET', 'POST'])
 @login_required
 def delete_component(id):
-    engine = create_engine('sqlite:///techdrop.sqlite')
-    cur = engine.connection()
+    user = User.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        deleted = Auctions.query.filter_by(id=id).delete()
+        db.session.commit()
+        return render_template('auctions/listed.html', id=id, user=user)
+    else:
+        return("/")
 
-    cur.execute("DELETE FROM auctions WHERE id =%s", [id])
+@bp.route("/listed/<id>/updated", methods=['GET', 'POST'])
+@login_required
+def edit_component(id):
+   
+    user = Auctions.query.filter_by(id=id)
+    auction_item = AuctionsForm()
+#currently empty function
+    
+    return render_template('auctions/update.html', id=id, user=user, form=auction_item)
 
-    engine.connection.commit()
-
-    cur.close()
-
-    flash('Article Deleted', 'Success')
-
-    return render_template('auctions/index.html', user=user)
 
 
-@bp.route('/categories')
-def index():
-    return "This is your category"
+
+
+
+
+
+
+
+
