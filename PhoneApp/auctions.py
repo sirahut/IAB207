@@ -154,10 +154,15 @@ def create():
         flash(message, "success")
         print('Successfully created new auction listing', 'success')
         return redirect(url_for('auction.create'))
+<<<<<<< HEAD
     else:
         # error = "Invalid input"
         # flash(error, "danger")
         return render_template('auctions/create.html', form=create_form)
+=======
+
+    return render_template('auctions/create.html', form=create_form)
+>>>>>>> f527fa89dca9c5dbefca4d1251522018710e7563
 
 
 @bp.route('/<id>/review', methods=['GET', 'POST'])
