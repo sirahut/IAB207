@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
-from wtforms.validators import InputRequired, Length, Email, EqualTo
+from wtforms.validators import InputRequired, Length, Email, EqualTo, ValidationError
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 from wtforms import Form, BooleanField, StringField, validators, DateTimeField, IntegerField, FloatField
 from wtforms.fields.html5 import DateField, IntegerField
@@ -39,9 +39,14 @@ class AuctionsForm(FlaskForm):
         FileAllowed(ALLOWED_FILE, message="Only supports valid filetypes")])
 
     open_bid = FloatField('Opening Bid', [validators.NumberRange(min=100)])
-    #start = DateField('Start Date', id='datepick')
-    #end = DateField('End Date', id='datepick')
+    start = DateField('Start Date', id='datepick')
+    end = DateField('End Date', id='datepick')
     submit = SubmitField('Create')
+
+    def validate_end(self, field):
+        if field.data <= self.start.data:
+            raise ValidationError(
+                "Error!: Please enter later date than start date.")
 
 
 class LoginForm(FlaskForm):
