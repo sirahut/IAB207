@@ -218,3 +218,5 @@ def edit_component(id):
 @bp.route('/categories')
 def index():
     return "This is your category"
+
+# route to allow users to search
