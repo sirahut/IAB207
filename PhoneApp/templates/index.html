@@ -127,22 +127,26 @@
 
       <div class="card-body">
 
-        <h5 class="card-title">Recently Sold Items</h5>
+        <h5 class="card-title">Recently Listed Products</h5>
 
-        <p class="card-text">...</p>
-                <p>
-          <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            View Other Recently Sold Items <!--Link with href-->
-          </a>
-        </p>
-        <div class="collapse" id="collapseExample">
-          <div class="card card-body">
-          Items Linked here
-          </div>
+          <tr>
+          
+          {% for auction in auctions %}
+              <td>{{auction.title}}</td>
+              <td>{{auction.model}}</td>
+              <td>{{auction.description}}</td>
+              <td><img src={{auction.image}} alt="" border=3 height=100 width=100></img></td>
+              <td>{{auction.open_bid}}</td>
+              <td>{{auction.start}}</td>
+
+          </tr>
+          {% endfor %}
+
         </div>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago (link updated times)</small></p>
+        
 
       </div>
+      
 
     </div>
 

@@ -211,3 +211,10 @@ def edit_component(id):
 # currently empty function
 
     return render_template('auctions/update.html', id=id, user=user, form=auction_item)
+
+
+@bp.route('/categories')
+def index():
+    return "This is your category"
+
+# route to allow users to search
