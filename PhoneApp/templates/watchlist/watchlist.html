@@ -57,7 +57,7 @@
                 </div>
             </span>
             <span class="col">
-                <p class="">Item added {{watchlist.added_date.strftime('%d/%m/%Y')}}</p>
+                <p class="">Item added {{watchlist.added_date.strftime('%d %B %Y')}}</p>
                 <button type="button" class="btn btn-outline-danger mt-2">Remove from Watchlist</button>
                 <a type="button" href="{{url_for('auction.show',id=watchlist.auction.id)}}"
                     class="btn btn-outline-primary mt-2">View Item</a>
