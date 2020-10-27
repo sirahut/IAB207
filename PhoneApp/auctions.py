@@ -34,8 +34,9 @@ def show(id):
     # get current bid from the database
     current_bid = db.session.query(
         func.max(Bid.bid_amount)).filter_by(auction_id=id).scalar()
-    # format 2 decimal number
+    # initail as none
     current_bid2f = None
+    # format 2 decimal number
     if current_bid is not None:
         current_bid2f = "{:.2f}".format(current_bid)
 
