@@ -79,7 +79,13 @@
                 </svg> Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/watchlists/{{(current_user.id)}}">WatchList</a>
+              <a class="nav-link"
+              {% if current_user.is_authenticated %}
+              href="{{url_for('watchlist.watchlist',id=current_user.id)}}"
+              {% else %}
+              href="{{url_for('watchlist.watchlist',id=1)}}"
+              {% endif %}
+              >WatchList</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"

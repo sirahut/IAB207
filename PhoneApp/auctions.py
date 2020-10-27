@@ -61,6 +61,7 @@ def show(id):
     # if the user not logged in the button will show 'Add to Watchlist'
     if not current_user.is_authenticated:
         add_to_watchlist_button = 'Add to Watchlist'
+    # check if user already have this auction in the watchlist
     else:
         watchlistAdded = Watchlist.query.filter_by(
             user_id=current_user.id).filter_by(auction_id=id).first()
