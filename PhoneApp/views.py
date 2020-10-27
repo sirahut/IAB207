@@ -1,23 +1,15 @@
-<<<<<<< Updated upstream
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from .models import Model
-=======
 from flask import Blueprint, render_template, request, session
 from PhoneApp.forms import AuctionsForm
 from PhoneApp.models import Auctions, User
->>>>>>> Stashed changes
 
 bp = Blueprint('main', __name__)
 
 
 @bp.route('/')
 def index():
-    auction_item = AuctionsForm()
-    user = User.query.filter_by().first()
-    auction = Auctions.query.filter_by().all()
-
-
-    return render_template('index.html', user=user)
+    return render_template('index.html')
 
 # def search():
 
