@@ -58,16 +58,21 @@ def show(id):
 
 # ------- watchlist button -----
     add_to_watchlist_button = ''
-    watchlistAdded = Watchlist.query.filter_by(
-        user_id=current_user.id).filter_by(auction_id=id).first()
-    # if there is no this auction in the watchlist
-    if watchlistAdded is None:
+    # if the user not logged in the button will show 'Add to Watchlist'
+    if not current_user.is_authenticated:
         add_to_watchlist_button = 'Add to Watchlist'
-
-    # if the auction already in the watchlist
+    # check if user already have this auction in the watchlist
     else:
-        # set button to "Remove from Watchlist"
-        add_to_watchlist_button = 'Remove from Watchlist'
+        watchlistAdded = Watchlist.query.filter_by(
+            user_id=current_user.id).filter_by(auction_id=id).first()
+        # if there is no this auction in the watchlist
+        if watchlistAdded is None:
+            add_to_watchlist_button = 'Add to Watchlist'
+
+        # if the auction already in the watchlist
+        else:
+            # set button to "Remove from Watchlist"
+            add_to_watchlist_button = 'Remove from Watchlist'
 
 # -------- end of watchlist button ---------
 
@@ -154,10 +159,8 @@ def create():
         flash(message, "success")
         print('Successfully created new auction listing', 'success')
         return redirect(url_for('auction.create'))
-    else:
-        # error = "Invalid input"
-        # flash(error, "danger")
-        return render_template('auctions/create.html', form=create_form)
+
+    return render_template('auctions/create.html', form=create_form)
 
 
 @bp.route('/<id>/review', methods=['GET', 'POST'])

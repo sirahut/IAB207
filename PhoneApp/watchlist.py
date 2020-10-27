@@ -30,7 +30,7 @@ def watchlist(id):
         return(url_for('watchlist.watchlist', id=id))
     #############################################################
     return render_template('watchlist/watchlist.html', user=user)
-    
+
 
 @bp.route('/<id>/add', methods=['GET', 'POST'])
 @login_required
@@ -53,8 +53,8 @@ def add_to_watchlist(id):
             db.session.commit()
 
             return redirect(url_for('auction.show', id=id))
-            
-    # if the auction already in the watchlist
+
+   # if the auction already in the watchlist
     else:
         # Remove button
         if watchlist_form.validate_on_submit():
