@@ -32,42 +32,37 @@ def watchlist(id):
 
         # get auction_id for each auction in the watchlist
         for watchlist in watchlists:
-            auction_id = watchlist.auction.id
+            if watchlist.auction is not None:
+                auction_id = watchlist.auction.id
 
-            auction = Auctions.query.filter_by(id=auction_id).first()
+                auction = Auctions.query.filter_by(id=auction_id).first()
 
-            # initail as none
-            watchlist.current_bid2f = None
-            # get current bid from the database
-            current_bid = db.session.query(
-                func.max(Bid.bid_amount)).filter_by(auction_id=auction_id).scalar()
-            # format to 2 decimal number
-            if current_bid is not None:
-                watchlist.current_bid2f = "{:.2f}".format(current_bid)
+                # initail as none
+                watchlist.current_bid2f = None
+                # get current bid from the database
+                current_bid = db.session.query(
+                    func.max(Bid.bid_amount)).filter_by(auction_id=auction_id).scalar()
+                # format to 2 decimal number
+                if current_bid is not None:
+                    watchlist.current_bid2f = "{:.2f}".format(current_bid)
 
-            # starting bid
-            starting_bid = (float(auction.open_bid))
+                # starting bid
+                starting_bid = (float(auction.open_bid))
 
-            # bid number count
-            watchlist.bid_number = Bid.query.filter_by(
-                auction_id=auction_id).count()
+                # bid number count
+                watchlist.bid_number = Bid.query.filter_by(
+                    auction_id=auction_id).count()
 
-            # priceControl
-            # add one to starting bid/ current bid
-            if current_bid is None:
-                priceControl = starting_bid + 1
-            else:
-                priceControl = current_bid + 1
-            # format 2 decimal number
-            watchlist.priceControl2f = "{:.2f}".format(priceControl)
+                # priceControl
+                # add one to starting bid/ current bid
+                if current_bid is None:
+                    priceControl = starting_bid + 1
+                else:
+                    priceControl = current_bid + 1
+                # format 2 decimal number
+                watchlist.priceControl2f = "{:.2f}".format(priceControl)
 
-    #auction = Auctions.query.filter_by(id=auction_id)
-    # if user is logged user cannot access other users watchlist
-    if user != current_user:
-        flash('You cannot access this users Watchlist Items')
-        return(url_for('watchlist.watchlist', id=id))
-    #############################################################
-    return render_template('watchlist/watchlist.html', watchlists=watchlists)
+    return render_template('watchlist/watchlist.html', watchlists=watchlists, user=user)
 
 
 @bp.route('/<id>/add', methods=['GET', 'POST'])

@@ -31,31 +31,38 @@ def show(id):
     review_form = ReviewForm()
     watchlist_form = WatchListForm()
 # --------- attribute on the page show.html ----------
+    # initial as None
+    current_bid2f = None
+    starting_bid = None
+    starting_bid2f = None
+    bid_number = None
+    priceControl2f = None
+
     # get current bid from the database
     current_bid = db.session.query(
         func.max(Bid.bid_amount)).filter_by(auction_id=id).scalar()
-    # initail as none
-    current_bid2f = None
+
     # format 2 decimal number
     if current_bid is not None:
         current_bid2f = "{:.2f}".format(current_bid)
 
     # starting bid
-    starting_bid = (float(auction.open_bid))
+    if auction is not None:
+        starting_bid = (float(auction.open_bid))
     # format 2 decimal number
-    starting_bid2f = "{:.2f}".format(starting_bid)
+        starting_bid2f = "{:.2f}".format(starting_bid)
     # bid number count
-    bid_number = Bid.query.filter_by(auction_id=id).count()
+        bid_number = Bid.query.filter_by(auction_id=id).count()
 
     # priceControl
-    priceControl = ''
+        priceControl = ''
     # add one to starting bid/ current bid
-    if current_bid is None:
-        priceControl = starting_bid + 1
-    else:
-        priceControl = current_bid + 1
+        if current_bid is None:
+            priceControl = starting_bid + 1
+        else:
+            priceControl = current_bid + 1
     # format 2 decimal number
-    priceControl2f = "{:.2f}".format(priceControl)
+        priceControl2f = "{:.2f}".format(priceControl)
 
 # ------- watchlist button --------
     add_to_watchlist_button = ''

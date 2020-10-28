@@ -2,11 +2,13 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
+
 <div class="container mt-2">
+    {% if user.id == current_user.id %}
     <!--Heading-->
     <div class="row">
         <span class="col">
-            <h3 class="headp3">Watchlist</h3>
+            <h3 class="headp3">Watchlist of {{current_user.name}}</h3>
         </span>
         <span id="sortByText">
             Sort by:
@@ -65,5 +67,16 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="container mt-3">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">You cannot access other users 'Watchlist'</h4>
+            <p>You might be directed to the wrong url</p>
+            <hr>
+            <p class="mb-0">Try /watchlists/{{current_user.id}}</p>
+        </div>
+    </div>
+    {% endif %}
 </div>
+
 {% endblock %}
