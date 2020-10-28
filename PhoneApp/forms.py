@@ -62,7 +62,8 @@ class RegisterForm(FlaskForm):
                             InputRequired('User Name is required')])
     email = StringField('Email', validators=[InputRequired(
         'Email is required'), Email('Email is not valid')])
-
+    contact_number = StringField('Contact Number')
+    address = StringField('Address')
     password = PasswordField('Password', validators=[
                              InputRequired('Password Name is required')])
     confirm_password = PasswordField('Confirm Password', validators=[
