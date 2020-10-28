@@ -30,8 +30,7 @@ class AuctionsForm(FlaskForm):
                         InputRequired('Model is required')])
     condition = QuerySelectField(
         query_factory=condition_query, allow_blank=False, get_label='condition')
-    # condition = StringField('Condition', validators=[
-    #     InputRequired('Condition Is Required')])
+
     description = StringField('Description', validators=[InputRequired('Description is required'),
                                                          Length(min=10, max=300, message='Description is too short or too long')])
     image = FileField('Mobile Images', validators=[

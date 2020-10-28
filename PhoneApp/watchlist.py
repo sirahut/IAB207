@@ -24,12 +24,14 @@ def watchlist(id):
     # the "id" has to be id of the user_id
     user = User.query.filter_by(id=id).first()
 
-    # get watchlist of current user from database
+    # this will set to None if there are no watchlists
+    are_there_any = Watchlist.query.filter_by(user_id=id).first()
+
+    # get all watchlists of current user from database
     watchlists = Watchlist.query.filter_by(user_id=id).all()
 
     # if there are auctions in the watchlist
     if watchlists is not None:
-
         # get auction_id for each auction in the watchlist
         for watchlist in watchlists:
             if watchlist.auction is not None:
@@ -62,7 +64,7 @@ def watchlist(id):
                 # format 2 decimal number
                 watchlist.priceControl2f = "{:.2f}".format(priceControl)
 
-    return render_template('watchlist/watchlist.html', watchlists=watchlists, user=user)
+    return render_template('watchlist/watchlist.html', watchlists=watchlists, user=user, are_there_any=are_there_any)
 
 
 @bp.route('/<id>/add', methods=['GET', 'POST'])

@@ -34,7 +34,10 @@
                     <p class="card-text">Starting bid: {{ starting_bid }}</p>
                     <h5 class="card-title">Current bid: {{ current_bid }}</h5>
                     <p class="card-text">{{ bid_number }} bids</p>
+                    {% if auction.status == 'Active' %}
+                    <!--Only show time if the auction is 'Active'-->
                     <p class="card-text">2d 8h 10m left</p>
+                    {% endif %}
                     {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                     <div class="row mt-3 mb-3">
@@ -48,6 +51,8 @@
                     <!--Disable bid form/function also Watchlist button if the person looking at this page created this auction-->
                     <!--Place bid form-->
                     {% if auction.user_id != current_user.id %}
+                    <!--Disable bid form if the auction has been closed-->
+                    {% if auction.status == 'Active' %}
                     <form class="form-inline" action="/auctions/{{auction.id}}/bid" method="POST" class="form"
                         role="form">
                         {{ bid_form.csrf_token() }}
@@ -71,8 +76,14 @@
                     </form>
                     <!--End of Add to Watchlist button-->
 
-                    <!--The person who created this auction will be able to see all the bids instead-->
+
                     {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        The auction has been closed!
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <!--The person who created this auction will be able to see all the bids instead-->
                     <!--Aleart message-->
                     <div class="alert alert-info alert-dismissible fade show" role="alert">
                         <strong>This is the auction you created</strong>
