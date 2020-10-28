@@ -27,7 +27,7 @@
         </div>
         <div class="col mt-0.5">
             <div class="itemcard bg-light mb-3" style="position:relative; left: 0px; top:25px;">
-                <div class="card-header">{{ auction.name}}</div>
+                <div class="card-header h3">{{auction.title}}</div>
                 <div class="card-body">
                     <p class="card-text">Starting bid: {{ starting_bid }}</p>
                     <h5 class="card-title">Current bid: {{ current_bid }}</h5>
@@ -104,7 +104,7 @@
                         <div class="row border-bottom">
                             <div class="col-md-12">
                                 <b>{{ review.user.name }} <span
-                                        class="ml-2 text-muted">{{ (review.created_at.strftime('%d-%m-%Y')) }}</span></b>
+                                        class="ml-2 text-muted">{{ (review.created_at.strftime('%d %B %Y')) }}</span></b>
                                 <p>{{ review.text }}</p>
                             </div>
                         </div>

@@ -6,7 +6,7 @@
     <!--Heading-->
     <div class="row">
         <span class="col">
-            <h3 class="headp3">Watchlist of {{user.name}}</h3>
+            <h3 class="headp3">Watchlist</h3>
         </span>
         <span id="sortByText">
             Sort by:
@@ -24,7 +24,7 @@
 
     <!--Watchlists-->
     <div class="container mt-2">
-        {% for watchlist in user.watchlists %}
+        {% for watchlist in watchlists %}
         <div class="row">
             <div class="col5">
                 <div class="card mb-3" style="max-width: 540px;">
@@ -34,9 +34,11 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">{{watchlist.auction.name}}</h5>
-                                <p class="card-text">$430<br>13 bids<br>0d 8h 10m left</p>
-
+                                <h5 class="card-title">{{watchlist.auction.title}}</h5>
+                                <p class="card-text">Current Bid:
+                                    {{watchlist.current_bid2f}}
+                                    <br>{{watchlist.bid_number}} bids
+                                    <br>0d 8h 10m left</p>
                             </div>
                         </div>
                     </div>
@@ -45,19 +47,20 @@
             <span class="col">
                 <div class="">
                     <p class="">
-                        Current Bid: <span id="big">AU $430</span>
+                        Current Bid: {{watchlist.current_bid2f}}
                     </p>
                     <form class="form-inline">
-                        <input class="form-control mr-sm-2" type="bid" aria-label="bid" id="inputbar">
+                        <input class="form-control mr-sm-2" type="bid" aria-label="bid" placeholder="AUD" id="inputbar">
                         <button class="btn btn-outline-dark my-2 my-sm-0">Place Bid</button>
                     </form>
-                    <p class="text-muted">Enter AU $440.00 or more</p>
+                    <p class="text-muted">Enter AU ${{watchlist.priceControl2f}} or more</p>
                 </div>
             </span>
             <span class="col">
-                <p class="">Item added 4 September 2020</p>
+                <p class="">Item added {{watchlist.added_date.strftime('%d %B %Y')}}</p>
                 <button type="button" class="btn btn-outline-danger mt-2">Remove from Watchlist</button>
-                <button type="button" class="btn btn-outline-primary mt-2">View Item</button>
+                <a type="button" href="{{url_for('auction.show',id=watchlist.auction.id)}}"
+                    class="btn btn-outline-primary mt-2">View Item</a>
             </span>
         </div>
         {% endfor %}
