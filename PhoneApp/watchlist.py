@@ -4,8 +4,9 @@ from .forms import WatchListForm
 from flask_login import login_required, current_user
 from datetime import datetime
 from . import db
+from sqlalchemy import func
 from PhoneApp.forms import AuctionsForm, ReviewForm
-from PhoneApp.models import Auctions, Review
+from PhoneApp.models import Auctions, Review, Bid
 from werkzeug.utils import secure_filename
 from PhoneApp.auctions import check_upload_file
 from flask.helpers import flash
@@ -22,15 +23,52 @@ bp = Blueprint('watchlist', __name__, url_prefix='/watchlists')
 def watchlist(id):
     # the "id" has to be id of the user_id
     user = User.query.filter_by(id=id).first()
+
+    # get watchlist of current user from database
     watchlists = Watchlist.query.filter_by(user_id=id).all()
+
+    # if there are auctions in the watchlist
+    if watchlists is not None:
+
+        # get auction_id for each auction in the watchlist
+        for watchlist in watchlists:
+            auction_id = watchlist.auction.id
+
+            auction = Auctions.query.filter_by(id=auction_id).first()
+
+            # initail as none
+            watchlist.current_bid2f = None
+            # get current bid from the database
+            current_bid = db.session.query(
+                func.max(Bid.bid_amount)).filter_by(auction_id=auction_id).scalar()
+            # format to 2 decimal number
+            if current_bid is not None:
+                watchlist.current_bid2f = "{:.2f}".format(current_bid)
+
+            # starting bid
+            starting_bid = (float(auction.open_bid))
+
+            # bid number count
+            watchlist.bid_number = Bid.query.filter_by(
+                auction_id=auction_id).count()
+
+            # priceControl
+            # add one to starting bid/ current bid
+            if current_bid is None:
+                priceControl = starting_bid + 1
+            else:
+                priceControl = current_bid + 1
+            # format 2 decimal number
+            watchlist.priceControl2f = "{:.2f}".format(priceControl)
+
     #auction = Auctions.query.filter_by(id=auction_id)
     # if user is logged user cannot access other users watchlist
     if user != current_user:
         flash('You cannot access this users Watchlist Items')
         return(url_for('watchlist.watchlist', id=id))
     #############################################################
-    return render_template('watchlist/watchlist.html', user=user)
-    
+    return render_template('watchlist/watchlist.html', watchlists=watchlists)
+
 
 @bp.route('/<id>/add', methods=['GET', 'POST'])
 @login_required
@@ -53,8 +91,8 @@ def add_to_watchlist(id):
             db.session.commit()
 
             return redirect(url_for('auction.show', id=id))
-            
-    # if the auction already in the watchlist
+
+   # if the auction already in the watchlist
     else:
         # Remove button
         if watchlist_form.validate_on_submit():

@@ -3,13 +3,16 @@ from .models import Model
 from flask import Blueprint, render_template, request, session
 from PhoneApp.forms import AuctionsForm
 from PhoneApp.models import Auctions, User
+from PhoneApp import auctions
 
 bp = Blueprint('main', __name__)
 
 
 @bp.route('/')
 def index():
-    return render_template('index.html')
+    users = User.query.filter_by().all()
+    auctions = Auctions.query.filter_by().all()
+    return render_template('index.html', auctions=auctions, users=users)
 
 # def search():
 
