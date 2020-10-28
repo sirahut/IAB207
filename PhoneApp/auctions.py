@@ -57,7 +57,7 @@ def show(id):
     # format 2 decimal number
     priceControl2f = "{:.2f}".format(priceControl)
 
-# ------- watchlist button -----
+# ------- watchlist button --------
     add_to_watchlist_button = ''
     # if the user not logged in the button will show 'Add to Watchlist'
     if not current_user.is_authenticated:
@@ -77,8 +77,17 @@ def show(id):
 
 # -------- end of watchlist button ---------
 
+# -------- Views all bids ----------------
+    all_bids = Bid.query.filter_by(
+        auction_id=id).order_by(Bid.bid_amount).all()
+    # counting number from 1
+    count = 1
+    for bid in all_bids:
+        bid.count = count
+        count += 1
+
     return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid, current_bid=current_bid2f, bid_number=bid_number,
-                           starting_bid=starting_bid2f, priceControl=priceControl2f, add_to_watchlist_button=add_to_watchlist_button)
+                           starting_bid=starting_bid2f, priceControl=priceControl2f, add_to_watchlist_button=add_to_watchlist_button, all_bids=all_bids)
 
 
 @bp.route('/<id>/bid', methods=['GET', 'POST'])

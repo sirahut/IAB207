@@ -25,6 +25,7 @@
                 </picture>
             </div>
         </div>
+        <!--This is a card showing bid information including Add to watchlist button-->
         <div class="col mt-0.5">
             <div class="itemcard bg-light mb-3" style="position:relative; left: 0px; top:25px;">
                 <div class="card-header h3">{{auction.title}}</div>
@@ -43,7 +44,9 @@
                     {% endif %}
                     {% endwith%}
 
+                    <!--Disable bid form/function also Watchlist button if the person looking at this page created this auction-->
                     <!--Place bid form-->
+                    {% if auction.user_id != current_user.id %}
                     <form class="form-inline" action="/auctions/{{auction.id}}/bid" method="POST" class="form"
                         role="form">
                         {{ bid_form.csrf_token() }}
@@ -57,6 +60,7 @@
                     <div>
                         <p class="text-muted">(Enter AU ${{priceControl}} or more)</p>
                     </div>
+                    <!--End of Place bid form-->
 
                     <!--Add to Watchlist button-->
                     <form action="/watchlists/{{(auction.id)}}/add" method="POST" class="form" role="form">
@@ -64,11 +68,68 @@
                         <button type="submit" id="add" name="add"
                             class="btn btn-outline-dark">{{add_to_watchlist_button}}</button>
                     </form>
+                    <!--End of Add to Watchlist button-->
 
+                    <!--The person who created this auction will be able to see all the bids instead-->
+                    {% else %}
+                    <!--Aleart message-->
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <strong>This is the auction you created</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!--End of Aleart message-->
+                    <!--The Table showing all bids that have been made-->
+                    <div>
+                        <p>
+                            <a class="btn btn-secondary btn-lg btn-block" data-toggle="collapse" href="#collapseExample"
+                                role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-box-arrow-down"
+                                    fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1h-2z" />
+                                    <path fill-rule="evenodd"
+                                        d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z" />
+                                </svg>
+                                View all Bids
+                            </a>
+                        </p>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <table class="table table-dark">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">username</th>
+                                            <th scope="col">bid amount</th>
+                                            <th scope="col">bid date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for bid in all_bids %}
+                                        <tr>
+                                            <th scope="row">{{bid.count}}</th>
+                                            <td>{{bid.user.name}}</td>
+                                            <td>${{bid.bid_amount}}</td>
+                                            <td>{{bid.bid_date.strftime('%d/%m/%Y %H:%M')}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End of the table-->
+
+
+
+                    {% endif %}
 
                 </div>
             </div>
         </div>
+        <!--End of bidding card-->
 
 
         <div class="row mt-2">
