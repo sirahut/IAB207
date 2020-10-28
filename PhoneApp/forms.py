@@ -42,7 +42,6 @@ class AuctionsForm(FlaskForm):
     start = DateField('Start Date', id='datepick')
     end = DateField('End Date', id='datepick')
     submit = SubmitField('Create')
-    status = HiddenField('Active')
 
     def validate_end(self, field):
         if field.data <= self.start.data:
