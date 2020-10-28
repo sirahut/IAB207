@@ -30,6 +30,7 @@ class Auctions(db.Model):
     # will change this later
     end = db.Column(db.DateTime)
     # auction status
+    status = db.column(db.string(80))
     # FK
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))

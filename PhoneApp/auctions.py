@@ -152,7 +152,8 @@ def create():
                             open_bid=create_form.open_bid.data,
                             start=create_form.start.data,
                             end=create_form.end.data,
-                            user=current_user)
+                            user=current_user,
+                            status=create_form.status.data)
 
         db.session.add(auctions)
         db.session.commit()

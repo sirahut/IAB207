@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, HiddenField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, ValidationError
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 from wtforms import Form, BooleanField, StringField, validators, DateTimeField, IntegerField, FloatField
@@ -42,6 +42,7 @@ class AuctionsForm(FlaskForm):
     start = DateField('Start Date', id='datepick')
     end = DateField('End Date', id='datepick')
     submit = SubmitField('Create')
+    status = HiddenField('Active')
 
     def validate_end(self, field):
         if field.data <= self.start.data:

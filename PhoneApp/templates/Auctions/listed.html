@@ -1,59 +1,61 @@
 {% extends 'base.html'%}
 
 {% block header %}
-            
-  <div class="container">
-    <table class="table table-sm">
-          <span class="col">
-              <h3 class="headp3">Your Listed Items {{user.name}}</h3>
-          </span>
-        <h1>Items Listed</h1>
-            <span id="sortBy">
 
-            <select>
-                <option>Ending Soonest</option>
-                <option>Price:Low-High</option>
-                <option>Price:High-Low</option>
-                <option>Recently Added</option>
-            </select>
-            <br></br>
-            </span>
-          <thead>
+<div class="container">
+  <table class="table table-sm">
+    <span class="col">
+      <h3 class="headp3">Your Listed Items {{user.name}}</h3>
+    </span>
+    <h1>Items Listed</h1>
+    <span id="sortBy">
 
-            <th>Brand</th>
-            <th>Model No.</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>Open Bid</th>
-            <th>Posted On:</th>            
-            <th></th>
-            <th></th>
-          </thead>
-        <tbody>
-          <tr>
-          
-          {% for auction in user.auctions %}
-              <td>{{auction.title}}</td>
-              <td>{{auction.model}}</td>
-              <td>{{auction.description}}</td>
-              <td><img src={{auction.image}} alt="" border=3 height=100 width=100></img></td>
-              <td>{{auction.open_bid}}</td>
-              <td>{{auction.start}}</td>
-              <td>
-                  <!--<form action ="{{url_for('auction.edit_component', id=auction.id)}}" method="POST">-->
-                    <input type="submit" value="Update" />
-              </td>
-              <td>
-                  <form action ="{{url_for('auction.delete_component', id=auction.id)}}" method="POST">
-                    <input type="submit" value="Delete" />
-              </td>
-          </tr>
-     
-          {% endfor %}
-      </table>
-    </div>
-  </div>
+      <select>
+        <option>Ending Soonest</option>
+        <option>Price:Low-High</option>
+        <option>Price:High-Low</option>
+        <option>Recently Added</option>
+      </select>
+      <br></br>
+    </span>
+    <thead>
+
+      <th>Brand</th>
+      <th>Model No.</th>
+      <th>Description</th>
+      <th>Image</th>
+      <th>Open Bid</th>
+      <th>Posted On:</th>
+      <th>Status</th>
+      <th></th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr>
+
+        {% for auction in user.auctions %}
+        <td>{{auction.title}}</td>
+        <td>{{auction.model}}</td>
+        <td>{{auction.description}}</td>
+        <td><img src={{auction.image}} alt="" border=3 height=100 width=100></img></td>
+        <td>{{auction.open_bid}}</td>
+        <td>{{auction.start}}</td>
+        <td>{{auction.open_bid}}</td>
+        <td>
+          <!--<form action ="{{url_for('auction.edit_component', id=auction.id)}}" method="POST">-->
+          <input type="submit" value="Update" />
+        </td>
+        <td>
+          <form action="{{url_for('auction.delete_component', id=auction.id)}}" method="POST">
+            <input type="submit" value="Delete" />
+        </td>
+      </tr>
+
+      {% endfor %}
+  </table>
+</div>
+</div>
 
 
 
-  {% endblock %}
+{% endblock %}
