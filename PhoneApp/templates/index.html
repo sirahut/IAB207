@@ -8,33 +8,16 @@
   <div class="row justify-content-center mt-5 pb-4">
 
     <div class="col-md-8">
-
-      <div class="jumbotron shadow py-4 mb-5 ">
-
-        <h1 class="text-center">Discover The Best Auctioned Phones</h1>
-
-        <!-- <form class="form-inline d-flex flex-nowrap" action="{{url_for('main.search')}}">
-
-          <select name="search" class="form-control flex-grow-1 my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-
-            <option selected>Find a brand... </option>
-
-            <option value="america">Samsung</option>
-
-            <option value="africa">Apple</option>
-
-            <option value="africa">Asus</option>
-
-          </select>
-
-          <button type="submit" class="flex-shrink-1 btn btn-primary my-1">View</button>
-
-        </form> -->
-        <form class="form-inline d-flex flex-nowrap" action="{{url_for('main.search')}}">
-          <input type="text" name="search" class="form-control flex-grow-1 my-1 mr-sm-2" placeholder="Search...">
-          <button type="submit" class="flex-shrink-1 btn btn-primary my-1">Submit</button>
-        </form>
-
+            <div class="jumbotron jumbotron-fluid">
+              <div class="container">
+                <h1 class="display-4">Welcome To TechDrop</h1>
+                <p class="lead">Where your old phones are a bid away from making you a profit! </p>
+              <a href="{{url_for('auth.register')}}" class="btn btn-secondary btn-sm">Register</a>
+              <a href="{{url_for('auth.login')}}" class="btn btn-secondary btn-sm">Login Here</a>
+              
+              
+            </div>
+          </div>
 
       </div>
 
@@ -93,11 +76,7 @@
               <span class="sr-only">Next</span>
             </a>
           </div>
-          <br></br>
-          <div class="text-center">
-            <a href="{{url_for('auth.register')}}" class="btn btn-primary">Register</a>
-            <a href="{{url_for('auth.login')}}" class="btn btn-primary">Login</a>
-          </div>
+
 
         </div>
 
@@ -119,51 +98,37 @@
 
         <p class="card-text">...
         <table class="table">
-          <thead>
+          <thead class= "thead-dark">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">Id No.#</th>
+              <th scope="col"> User </th>
+              <th scope="col">Bid Amount</th>
+              <th scope="col">Bid Item</th>
+              <th scope="col">Date Of Bid</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
+          
+          {% for bid in bids %}
+            
+          <tr>
+            <th scope="row">{{bid.user_id}}</th>
+            <td>{{bid.user.name}}</td>
+            <td>{{bid.bid_amount}}</td>
+            <td><img src="{{bid.auction.image}}" alt="Card image cap" border=5 height=80 width=120></td>
+            <td>{{bid.bid_date}}</td>
+          </tr>
+          {% endfor %}
 
           </tbody>
         </table>
         </p>
 
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago (link updated times)</small></p>
 
       </div>
-
-    </div>
-
-    <div class="card">
-      <!--add image here-->
-
-      <div class="card-body">
-
-        <h5 class="card-title">Recently Listed Products</h5>
-        <!-- link items in the recently listed items-->
-
-        <tr>
-
-
-
-      </div>
-
-
-    </div>
-
 
   </div>
+</div>
 
 
   <p>
@@ -187,17 +152,26 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Item</th>
-            <th scope="col"></th>
+            <th scope="col">Brand</th>
             <th scope="col">Opening Bid</th>
+            <th scope="col">Current Bid</th>
+            <th scope="col">Description</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Bid Status</th>
+
           </tr>
         </thead>
         <tbody>
           {% for auction in auctions %}
           <tr>
             <th scope="row">{{auction.id}}</th>
-            <td>{{auction.title}}</td>
-            <td><img src="{{auction.image}}" alt="Card image cap" border=5 height=180 width=150></td>
+            <td><img src="{{auction.image}}" alt="Card image cap" border=5 height=120 width=180></td>
+            <td >{{auction.title}}</td>
             <td>${{auction.open_bid}}</td>
+            <td></td>
+            <td>{{auction.description}}</td>
+            <td>{{auction.end}}</td>
+            <td>{{auction.status}}</td>
           </tr>
           {% endfor %}
         </tbody>
