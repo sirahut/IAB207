@@ -8,35 +8,43 @@
   <div class="row justify-content-center mt-5 pb-4">
 
     <div class="col-md-8">
-            <div class="jumbotron jumbotron-fluid">
-              <div class="container">
-                <h1 class="display-4">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-music-player-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2 1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3zm7 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                <circle cx="8" cy="11" r="1"/>
-              </svg>
-                Welcome To TechDrop</h1>
-                <p class="lead">Where your old phones are a bid away from making you a profit! </p>
-              <a href="{{url_for('auth.register')}}" class="btn btn-secondary btn-sm">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-              </svg>
-              Register</a>
-              <a href="{{url_for('auth.login')}}" class="btn btn-secondary btn-sm"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-power" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z"/>
-                <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z"/>
-              </svg> 
-              Login Here</a>
-              
-              
-            </div>
-          </div>
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-music-player-fill" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2 1a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2.5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V3zm7 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+              <circle cx="8" cy="11" r="1" />
+            </svg>
+            Welcome To TechDrop</h1>
+          <p class="lead">Where your old phones are a bid away from making you a profit! </p>
+          <!--Only show these button if user not logged in-->
+          {% if not current_user.is_authenticated %}
+          <a href="{{url_for('auth.register')}}" class="btn btn-secondary btn-sm">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+            </svg>
+            Register</a>
+          <a href="{{url_for('auth.login')}}" class="btn btn-secondary btn-sm"> <svg width="1em" height="1em"
+              viewBox="0 0 16 16" class="bi bi-power" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z" />
+              <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" />
+            </svg>
+            Login Here</a>
+          {% endif %}
 
+
+        </div>
       </div>
 
     </div>
 
   </div>
+
+</div>
 
 </div>
 {% endblock %}
@@ -107,16 +115,19 @@
       <!--add image here-->
       <div class="card-body">
 
-        <h5  class="card-title"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cash-stack" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 3H1a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1h-1z"/>
-          <path fill-rule="evenodd" d="M15 5H1v8h14V5zM1 4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H1z"/>
-          <path d="M13 5a2 2 0 0 0 2 2V5h-2zM3 5a2 2 0 0 1-2 2V5h2zm10 8a2 2 0 0 1 2-2v2h-2zM3 13a2 2 0 0 0-2-2v2h2zm7-4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
-        </svg> 
-        Current Highest Bidders</h5>
+        <h5 class="card-title"> <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cash-stack"
+            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 3H1a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1h-1z" />
+            <path fill-rule="evenodd"
+              d="M15 5H1v8h14V5zM1 4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1H1z" />
+            <path
+              d="M13 5a2 2 0 0 0 2 2V5h-2zM3 5a2 2 0 0 1-2 2V5h2zm10 8a2 2 0 0 1 2-2v2h-2zM3 13a2 2 0 0 0-2-2v2h2zm7-4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+          </svg>
+          Current Highest Bidders</h5>
 
 
         <table class="table">
-          <thead class= "thead-dark">
+          <thead class="thead-dark">
             <tr>
               <th scope="col">Id No.#</th>
               <th scope="col"> User </th>
@@ -126,17 +137,17 @@
             </tr>
           </thead>
           <tbody>
-          
-          {% for bid in bids %}
-            
-          <tr>
-            <th scope="row">{{bid.user_id}}</th>
-            <td>{{bid.user.name}}</td>
-            <td>{{bid.bid_amount}}</td>
-            <td><img src="{{bid.auction.image}}" alt="Card image cap" border=5 height=80 width=120></td>
-            <td>{{bid.bid_date}}</td>
-          </tr>
-          {% endfor %}
+
+            {% for bid in bids %}
+
+            <tr>
+              <th scope="row">{{bid.user_id}}</th>
+              <td>{{bid.user.name}}</td>
+              <td>{{bid.bid_amount}}</td>
+              <td><img src="{{bid.auction.image}}" alt="Card image cap" border=5 height=80 width=120></td>
+              <td>{{bid.bid_date}}</td>
+            </tr>
+            {% endfor %}
 
           </tbody>
         </table>
@@ -145,8 +156,8 @@
 
       </div>
 
+    </div>
   </div>
-</div>
 
 
   <p>
@@ -184,7 +195,7 @@
           <tr>
             <th scope="row">{{auction.id}}</th>
             <td><img src="{{auction.image}}" alt="Card image cap" border=5 height=120 width=180></td>
-            <td >{{auction.title}}</td>
+            <td>{{auction.title}}</td>
             <td>${{auction.open_bid}}</td>
             <td></td>
             <td>{{auction.description}}</td>
