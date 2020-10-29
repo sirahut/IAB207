@@ -50,7 +50,7 @@
 {% endblock %}
 
 {% block content %}
-
+{% if full_page == 'Yes' %}
 <div class="container">
 
 
@@ -181,9 +181,9 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Item</th>
-            <th scope="col">Brand</th>
-            <th scope="col">Opening Bid</th>
+            <th scope="col">Title</th>
             <th scope="col">Current Bid</th>
+            <th scope="col">Number of Bids</th>
             <th scope="col">Description</th>
             <th scope="col">End Date</th>
             <th scope="col">Bid Status</th>
@@ -196,11 +196,21 @@
             <th scope="row">{{auction.id}}</th>
             <td><img src="{{auction.image}}" alt="Card image cap" border=5 height=120 width=180></td>
             <td>{{auction.title}}</td>
-            <td>${{auction.open_bid}}</td>
-            <td></td>
+
+            <td>{{auction.current_bid}}</td>
+            <td>{{auction.bid_number}}</td>
             <td>{{auction.description}}</td>
             <td>{{auction.end}}</td>
-            <td>{{auction.status}}</td>
+            <td style="text-align: center;">
+              <p>{{auction.status}}</p>
+              {% if auction.status == 'Active' %}
+              <a href="{{url_for('auction.show', id=auction.id)}}" class="btn btn-outline-info btn-block">View
+                Details</a>
+              {% else %}
+              <a href="{{url_for('auction.show', id=auction.id)}}" class="btn btn-outline-danger btn-block">View
+                Details</a>
+              {% endif %}
+            </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -211,18 +221,36 @@
 
 
 </div>
+{% else %}
+<div class="container ">
+  <div class="card-deck mb-3">
+    {% for auction in auctions %}
+    <div class="card border-dark mb-3">
+      <div class=" card-header h3">{{auction.title}}</div>
+      <img class="card-img-top" src="{{auction.image}}" alt="{{auction.title}}">
+      <div class="card-body">
+        <h5 class="card-title">Current bid: {{ auction.current_bid }}</h5>
+        <p class="card-text">{{ auction.bid_number }} bids</p>
+        {% if auction.status == 'Active' %}
+        <!--Only show time if the auction is 'Active'-->
+        <p class="card-text">{{auction.timeleft}} left</p>
+        {% else %}
+        <p class="card-text text-danger">This auction has been closed</p>
+        {% endif %}
+        <p class="card-text text-info">{{auction.description}}</p>
+
+
+        <p class="card-text"><small class="text-muted">{{auction.reviews|length}} Review(s)</small></p>
+      </div>
+      <div class="card-footer">
+        <div class="text-muted"><a href="{{url_for('auction.show', id=auction.id)}}"
+            class="btn btn-outline-info btn-block">View
+            Details</a></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 </div>
-
-
-
-
-
-
-
-
-
-</div>
-
-</div>
+{% endif %}
 
 {% endblock %}

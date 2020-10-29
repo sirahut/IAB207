@@ -16,6 +16,7 @@ from PhoneApp.models import User
 from werkzeug.exceptions import abort
 import sqlalchemy
 from sqlalchemy.engine import create_engine
+import humanfriendly
 
 
 # create blueprint
@@ -37,6 +38,8 @@ def show(id):
     starting_bid2f = None
     bid_number = None
     priceControl2f = None
+    timeleft = humanfriendly.format_timespan(
+        auction.end-datetime.now())
 
     # get current bid from the database
     current_bid = db.session.query(
@@ -94,7 +97,7 @@ def show(id):
         count += 1
 
     return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid, current_bid=current_bid2f, bid_number=bid_number,
-                           starting_bid=starting_bid2f, priceControl=priceControl2f, add_to_watchlist_button=add_to_watchlist_button, all_bids=all_bids)
+                           starting_bid=starting_bid2f, priceControl=priceControl2f, add_to_watchlist_button=add_to_watchlist_button, all_bids=all_bids, timeleft=timeleft)
 
 
 @bp.route('/<id>/bid', methods=['GET', 'POST'])

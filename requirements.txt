@@ -10,6 +10,7 @@ Flask-WTF==0.14.2
 idna==2.8
 itsdangerous==1.1.0
 gunicorn==19.9.0
+humanfriendly==8.2
 psycopg2-binary==2.8.3
 Jinja2==2.10
 Mako==1.0.7

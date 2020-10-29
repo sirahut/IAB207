@@ -36,7 +36,7 @@
                     <p class="card-text">{{ bid_number }} bids</p>
                     {% if auction.status == 'Active' %}
                     <!--Only show time if the auction is 'Active'-->
-                    <p class="card-text">2d 8h 10m left</p>
+                    <p class="card-text">{{timeleft}} left</p>
                     {% endif %}
                     {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
