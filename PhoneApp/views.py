@@ -10,9 +10,8 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
-    users = User.query.filter_by().all()
     auctions = Auctions.query.filter_by().all()
-    return render_template('index.html', auctions=auctions, users=users)
+    return render_template('index.html', auctions=auctions)
 
 # def search():
 
@@ -20,9 +19,10 @@ def index():
 @bp.route('/search')
 def search():
     if request.args['search']:
-        mod = "%" + request.args['search'] + '%'
-        model = Model.query.filter(
-            Model.name.like(mod)).all()
-        return render_template('base.html', model=model)
+        auc = "%" + request.args['search'] + '%'
+
+        auctions = Auctions.query.filter(
+            Auctions.title.like(auc)).all()
+        return render_template('index.html', auctions=auctions)
     else:
         return redirect(url_for('main.index'))
