@@ -124,8 +124,9 @@
                   {% if current_user.is_authenticated %}
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Hello {{current_user.name}}
                     <img class="img-fluid" height="10" width="30" src="https://www.flaticon.com/svg/static/icons/svg/1319/1319240.svg">
+                    Hello {{current_user.name}}
+                    
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="userdropdown">
                     <a class="dropdown-item" href="{{ url_for('auction.create') }}">
