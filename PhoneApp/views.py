@@ -7,7 +7,6 @@ from PhoneApp import auctions
 from sqlalchemy import func
 from datetime import datetime
 from . import db
-import humanfriendly
 
 bp = Blueprint('main', __name__)
 
@@ -36,8 +35,7 @@ def index():
         # bid number
         auction.bid_number = Bid.query.filter_by(
             auction_id=auction.id).count()
-        auction.timeleft = humanfriendly.format_timespan(
-            auction.end - datetime.now())
+        auction.timeleft = auction.end - datetime.now()
 
     return render_template('index.html', auctions=auctions, bids=bids, users=users, full_page=full_page)
 
@@ -69,8 +67,7 @@ def search():
             # bid number
             auction.bid_number = Bid.query.filter_by(
                 auction_id=auction.id).count()
-            auction.timeleft = humanfriendly.format_timespan(
-                auction.end-datetime.now())
+            auction.timeleft = auction.end-datetime.now()
 
         return render_template('index.html', auctions=auctions, bids=bids, users=users, full_page=full_page)
     else:
