@@ -46,8 +46,10 @@
           <input type="submit" value="Update" />
         </td>
         <td>
+          {% if auction.status == 'Active' %}
           <form action="{{url_for('auction.delete_component', id=auction.id)}}" method="POST">
             <input type="submit" value="Close Auction" />
+            {% endif %}
         </td>
       </tr>
 
