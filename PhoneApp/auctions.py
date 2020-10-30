@@ -206,9 +206,9 @@ def review(id):
 @bp.route('/listed/<id>', methods=['GET'])
 @login_required
 def listed(id):
-    auction_item = AuctionsForm()
+    # auction_item = AuctionsForm()
     user = User.query.filter_by(id=id).first()
-    auction = Auctions.query.filter_by(user_id=id).all()
+    # auction = Auctions.query.filter_by(user_id=id).all()
 
     if user != current_user:
         return redirect(url_for('main.index', id=id))
@@ -224,7 +224,7 @@ def delete_component(id):
         #     id=id).update(dict(status='Closed'))
         status.status = "Closed"
         db.session.commit()
-        return render_template('auctions/listed.html', id=id, user=user)
+        return redirect(url_for('auction.listed', id=current_user.id))
     else:
         return("/")
 
