@@ -16,7 +16,6 @@ from PhoneApp.models import User
 from werkzeug.exceptions import abort
 import sqlalchemy
 from sqlalchemy.engine import create_engine
-import humanfriendly
 
 
 # create blueprint
