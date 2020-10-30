@@ -89,4 +89,3 @@ class PlaceBidForm(FlaskForm):
     #min = highest_bid+1
     bid_amount = FloatField('$', [validators.NumberRange(min=1)])
     place = SubmitField('Place Bids')
-    

@@ -219,9 +219,10 @@ def listed(id):
 @login_required
 def delete_component(id):
     if request.method == 'POST':
-        status = Auctions.query.filter_by(id=id)
-        status.status = "flase"
-
+        status = Auctions.query.get(id)
+        # status = Auctions.query.filter_by(
+        #     id=id).update(dict(status='Closed'))
+        status.status = "Closed"
         db.session.commit()
         return render_template('auctions/listed.html', id=id, user=user)
     else:
