@@ -37,8 +37,7 @@ def show(id):
     starting_bid2f = None
     bid_number = None
     priceControl2f = None
-    timeleft = humanfriendly.format_timespan(
-        auction.end-datetime.now())
+    timeleft = auction.end-datetime.now()
 
     # get current bid from the database
     current_bid = db.session.query(
