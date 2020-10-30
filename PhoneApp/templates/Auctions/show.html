@@ -83,6 +83,12 @@
                     </div>
                     {% endif %}
                     {% else %}
+
+                    {% if auction.status != 'Active'%}
+                    <div class="alert alert-danger" role="alert">
+                        The auction has been closed!
+                    </div>
+                    {% endif %}
                     <!--The person who created this auction will be able to see all the bids instead-->
                     <!--Aleart message-->
                     <div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -91,6 +97,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+
                     <!--End of Aleart message-->
                     <!--The Table showing all bids that have been made-->
                     <div>

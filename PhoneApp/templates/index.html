@@ -235,7 +235,7 @@
         <!--Only show time if the auction is 'Active'-->
         <p class="card-text">{{auction.timeleft}} left</p>
         {% else %}
-        <p class="card-text text-danger">This auction has been closed</p>
+        <p class="card-text text-danger">This auction has been closed!</p>
         {% endif %}
         <p class="card-text text-info">{{auction.description}}</p>
 
@@ -243,9 +243,16 @@
         <p class="card-text"><small class="text-muted">{{auction.reviews|length}} Review(s)</small></p>
       </div>
       <div class="card-footer">
-        <div class="text-muted"><a href="{{url_for('auction.show', id=auction.id)}}"
-            class="btn btn-outline-info btn-block">View
-            Details</a></div>
+        {% if auction.status == 'Active' %}
+        <div><a href="{{url_for('auction.show', id=auction.id)}}" class="btn btn-outline-info btn-block">View
+            Details</a>
+        </div>
+        {% else %}
+        <div><a href="{{url_for('auction.show', id=auction.id)}}" class="btn btn-outline-danger btn-block">View
+            Details</a>
+        </div>
+        {% endif %}
+
       </div>
     </div>
     {% endfor %}
