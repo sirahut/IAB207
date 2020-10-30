@@ -30,8 +30,7 @@ class AuctionsForm(FlaskForm):
                         InputRequired('Model is required')])
     condition = QuerySelectField(
         query_factory=condition_query, allow_blank=False, get_label='condition')
-    # condition = StringField('Condition', validators=[
-    #     InputRequired('Condition Is Required')])
+
     description = StringField('Description', validators=[InputRequired('Description is required'),
                                                          Length(min=10, max=300, message='Description is too short or too long')])
     image = FileField('Mobile Images', validators=[
@@ -62,7 +61,8 @@ class RegisterForm(FlaskForm):
                             InputRequired('User Name is required')])
     email = StringField('Email', validators=[InputRequired(
         'Email is required'), Email('Email is not valid')])
-
+    contact_number = StringField('Contact Number')
+    address = StringField('Address')
     password = PasswordField('Password', validators=[
                              InputRequired('Password Name is required')])
     confirm_password = PasswordField('Confirm Password', validators=[

@@ -2,11 +2,13 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
+
 <div class="container mt-2">
+    {% if user.id == current_user.id %}
     <!--Heading-->
     <div class="row">
         <span class="col">
-            <h3 class="headp3">Watchlist</h3>
+            <h3 class="headp3">Watchlist of {{current_user.name}}</h3>
         </span>
         <span id="sortByText">
             Sort by:
@@ -24,10 +26,11 @@
 
     <!--Watchlists-->
     <div class="container mt-2">
+        {% if are_there_any != None %}
         {% for watchlist in watchlists %}
         <div class="row">
             <div class="col5">
-                <div class="card mb-3" style="max-width: 540px;">
+                <div class="card mb-3 h-100" style="max-width: 540px;">
                     <div class="row no-gutters">
                         <div class="col-md-4">
                             <img src="{{watchlist.auction.image}}" class="card-img" alt="...">
@@ -38,15 +41,18 @@
                                 <p class="card-text">Current Bid:
                                     {{watchlist.current_bid2f}}
                                     <br>{{watchlist.bid_number}} bids
+                                    {% if watchlist.auction.status == 'Active' %}
                                     <br>0d 8h 10m left</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <span class="col">
-                <div class="">
-                    <p class="">
+            <span class="col3">
+                {% if watchlist.auction.status == 'Active' %}
+                <div>
+                    <p>
                         Current Bid: {{watchlist.current_bid2f}}
                     </p>
                     <form class="form-inline">
@@ -55,15 +61,36 @@
                     </form>
                     <p class="text-muted">Enter AU ${{watchlist.priceControl2f}} or more</p>
                 </div>
+                {% else %}
+                <div class="alert alert-danger h-100" role="alert">
+                    <h5>This auction has been closed</h5>
+                </div>
+                {% endif %}
             </span>
             <span class="col">
-                <p class="">Item added {{watchlist.added_date.strftime('%d %B %Y')}}</p>
+                <p>Item added {{watchlist.added_date.strftime('%d %B %Y')}}</p>
                 <button type="button" class="btn btn-outline-danger mt-2">Remove from Watchlist</button>
                 <a type="button" href="{{url_for('auction.show',id=watchlist.auction.id)}}"
                     class="btn btn-outline-primary mt-2">View Item</a>
             </span>
         </div>
         {% endfor %}
+        {% else %}
+        <div class="alert alert-dark" role="alert">
+            You don't have anything in the Watchlist at the moment!
+        </div>
+        {% endif %}
     </div>
+    {% else %}
+    <div class="container mt-3">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">You cannot access other users 'Watchlist'</h4>
+            <p>You might be directed to the wrong url</p>
+            <hr>
+            <p class="mb-0">Try /watchlists/{{current_user.id}}</p>
+        </div>
+    </div>
+    {% endif %}
 </div>
+
 {% endblock %}
