@@ -208,13 +208,25 @@ def listed(id):
 @bp.route("/delete/<id>", methods=['GET', 'POST'])
 @login_required
 def delete_component(id):
-    user = User.query.filter_by(id=id).first()
     if request.method == 'POST':
-        deleted = Auctions.query.filter_by(id=id).delete()
+        status = Auctions.query.filter_by(id=id)
+        status.status = "flase"
+
         db.session.commit()
         return render_template('auctions/listed.html', id=id, user=user)
     else:
         return("/")
+
+# @bp.route("/delete/<id>", methods=['GET', 'POST'])
+# @login_required
+# def delete_component(id):
+#     user = User.query.filter_by(id=id).first()
+#     if request.method == 'POST':
+#         deleted = Auctions.query.filter_by(id=id).delete()
+#         db.session.commit()
+#         return render_template('auctions/listed.html', id=id, user=user)
+#     else:
+#         return("/")
 
 
 @bp.route("/listed/<id>/updated", methods=['GET', 'POST'])
