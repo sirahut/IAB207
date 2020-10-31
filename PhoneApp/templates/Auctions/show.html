@@ -76,18 +76,43 @@
                     </form>
                     <!--End of Add to Watchlist button-->
 
-
+                    <!--If the auction has been closed-->
                     {% else %}
                     <div class="alert alert-danger" role="alert">
                         The auction has been closed!
                     </div>
+                    {% if won_user != None %}
+                    <div class="alert alert-success" role="alert">
+                        This user that won this auction is <strong>"{{won_user}}"</strong>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success" role="alert">
+                        <strong>No one</strong> had placed bid while the auction was active.
+                    </div>
                     {% endif %}
+
+                    {% endif %}
+
+
+
+
+                    <!-----------------------If the user viewing created the auction---------------------------->
                     {% else %}
 
                     {% if auction.status != 'Active'%}
                     <div class="alert alert-danger" role="alert">
                         The auction has been closed!
                     </div>
+                    {% if won_user != None %}
+                    <div class="alert alert-success" role="alert">
+                        This user that won this auction is <strong>"{{won_user}}"</strong>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success" role="alert">
+                        <strong>No one</strong> had placed bid while the auction was active.
+                    </div>
+                    {% endif %}
+
                     {% endif %}
                     <!--The person who created this auction will be able to see all the bids instead-->
                     <!--Aleart message-->

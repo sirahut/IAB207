@@ -85,6 +85,15 @@ def show(id):
 
 # -------- end of watchlist button ---------
 
+# -------- Select the winner when auction is closed
+    won_user = None
+    # won_user is the user that placed current bid
+    if current_bid is not None:
+        won_user = Bid.query.filter_by(
+            bid_amount=current_bid).first().user.name
+    else:
+        won_user = None
+
 # -------- Views all bids ----------------
     all_bids = Bid.query.filter_by(
         auction_id=id).order_by(Bid.bid_amount).all()
@@ -95,7 +104,7 @@ def show(id):
         count += 1
 
     return render_template('auctions/show.html', auction=auction, review_form=review_form, watchlist=watchlist_form, bid_form=placebid, current_bid=current_bid2f, bid_number=bid_number,
-                           starting_bid=starting_bid2f, priceControl=priceControl2f, add_to_watchlist_button=add_to_watchlist_button, all_bids=all_bids, timeleft=timeleft)
+                           starting_bid=starting_bid2f, priceControl=priceControl2f, add_to_watchlist_button=add_to_watchlist_button, all_bids=all_bids, timeleft=timeleft, won_user=won_user)
 
 
 @bp.route('/<id>/bid', methods=['GET', 'POST'])
