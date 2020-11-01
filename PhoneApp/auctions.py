@@ -86,10 +86,10 @@ def show(id):
 # -------- end of watchlist button ---------
 
 # -------- Select the winner when auction is closed
-    auction.won_user = None
+    won_user = None
     if current_bid is not None:
         # The user that won the auction is the user that placed the current bid when it's closed
-        auction.won_user = Bid.query.filter_by(
+        won_user = Bid.query.filter_by(
             bid_amount=current_bid).filter_by(auction_id=auction.id).first().user.name
 
 # -------- Views all bids ----------------
