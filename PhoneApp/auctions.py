@@ -211,10 +211,8 @@ def review(id):
 @bp.route('/listed/<id>', methods=['GET'])
 @login_required
 def listed(id):
-    # auction_item = AuctionsForm()
     user = User.query.filter_by(id=id).first()
-    # auction = Auctions.query.filter_by(user_id=id).all()
-    # auctions = Auctions.query.filter_by(user_id=id)
+
     for auction in user.auctions:
         # grab current bid from database
         current_bid = db.session.query(
@@ -237,6 +235,7 @@ def listed(id):
 @bp.route("/delete/<id>", methods=['GET', 'POST'])
 @login_required
 def delete_component(id):
+    # this is a function to close auction
     if request.method == 'POST':
         status = Auctions.query.get(id)
         # status = Auctions.query.filter_by(
@@ -246,17 +245,6 @@ def delete_component(id):
         return redirect(url_for('auction.listed', id=current_user.id))
     else:
         return("/")
-
-# @bp.route("/delete/<id>", methods=['GET', 'POST'])
-# @login_required
-# def delete_component(id):
-#     user = User.query.filter_by(id=id).first()
-#     if request.method == 'POST':
-#         deleted = Auctions.query.filter_by(id=id).delete()
-#         db.session.commit()
-#         return render_template('auctions/listed.html', id=id, user=user)
-#     else:
-#         return("/")
 
 
 @bp.route("/listed/<id>/updated", methods=['GET', 'POST'])
