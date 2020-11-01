@@ -86,13 +86,11 @@ def show(id):
 # -------- end of watchlist button ---------
 
 # -------- Select the winner when auction is closed
-    won_user = None
-    # won_user is the user that placed current bid
+    auction.won_user = None
     if current_bid is not None:
-        won_user = Bid.query.filter_by(
-            bid_amount=current_bid).first().user.name
-    else:
-        won_user = None
+        # The user that won the auction is the user that placed the current bid when it's closed
+        auction.won_user = Bid.query.filter_by(
+            bid_amount=current_bid).filter_by(auction_id=auction.id).first().user.name
 
 # -------- Views all bids ----------------
     all_bids = Bid.query.filter_by(
@@ -216,6 +214,20 @@ def listed(id):
     # auction_item = AuctionsForm()
     user = User.query.filter_by(id=id).first()
     # auction = Auctions.query.filter_by(user_id=id).all()
+    # auctions = Auctions.query.filter_by(user_id=id)
+    for auction in user.auctions:
+        # grab current bid from database
+        current_bid = db.session.query(
+            func.max(Bid.bid_amount)).filter_by(auction_id=auction.id).scalar()
+        if current_bid is not None:
+            # format to two decimal places
+            auction.current_bid = "${:.2f}".format(current_bid)
+            # initialise as None
+        auction.won_user = None
+        if current_bid is not None:
+            # The user that won the auction is the user that placed the current bid when it's closed
+            auction.won_user = Bid.query.filter_by(
+                bid_amount=current_bid).filter_by(auction_id=auction.id).first().user.name
 
     if user != current_user:
         return redirect(url_for('main.index', id=id))
